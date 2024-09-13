@@ -1,0 +1,29 @@
+name: pyperf
+channels:
+  - conda-forge
+dependencies:
+  - numpy
+  - scipy
+  - pandas
+  - numexpr
+  - cython
+  - numba
+  - h5py
+  - hdf5
+  - netcdf4 
+  - matplotlib
+  - dask
+  - graphviz
+  - python-graphviz
+  - ipywidgets
+  - widgetsnbextension 
+  - dask-jobqueue
+  - dask-labextension   
+  - snakemake-minimal
+  - xarray
+  - jupyter
+  - jupyterlab
+  - pip
+  - pip:
+    - line_profiler
+    
