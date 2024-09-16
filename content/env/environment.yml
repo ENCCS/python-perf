@@ -1,29 +1,35 @@
-name: pyperf
+name: python-perf
 channels:
   - conda-forge
 dependencies:
+  # Basic packages
   - numpy
   - scipy
   - pandas
+  - matplotlib
+  - ipympl
+  # Profiling
+  - pyperf
+  - line_profiler
+  - snakeviz
+  - py-spy
+  # Optimization
   - numexpr
   - cython
   - numba
-  - h5py
-  - hdf5
-  - netcdf4 
-  - matplotlib
+  - pythran
+  - clangdev
+  - transonic
+  # Parallelization
+  - mpi4py
+  - openmpi
   - dask
+  - dask-labextension
+  # Tools
+  - ipython
   - graphviz
   - python-graphviz
   - ipywidgets
   - widgetsnbextension 
-  - dask-jobqueue
-  - dask-labextension   
-  - snakemake-minimal
-  - xarray
   - jupyter
   - jupyterlab
-  - pip
-  - pip:
-    - line_profiler
-    
