@@ -6,7 +6,7 @@ on a local computer.
 ## Local installation
 
 If you already have a preferred way to manage Python versions and
-libraries, you can stick to that. If not, we recommend that you install
+libraries, you can stick to that[^1]. If not, we recommend that you install
 Python3 and all libraries using
 [Miniforge](https://conda-forge.org/download/), a free
 minimal installer for the package, dependency and environment manager
@@ -42,3 +42,5 @@ Finally, open Jupyter-Lab in your browser:
 ``` console
 $ jupyter-lab
 ```
+
+[^1]: If you are not using conda, to install the right Python dependencies, download the `requirements.txt` file from [this link](https://raw.githubusercontent.com/ENCCS/python-perf/main/content/env/requirements.txt). Then [follow this guide to create a virtual environment and activate it](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#create-and-use-virtual-environments). Finally inside the virtual environment run `python3 -m pip install -r requirements.txt`.
