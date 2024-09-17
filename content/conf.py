@@ -50,6 +50,7 @@ nb_execution_mode = "cache"
 # https://myst-parser.readthedocs.io/en/latest/syntax/optional.html
 myst_enable_extensions = [
     "colon_fence",
+    "attrs_inline",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

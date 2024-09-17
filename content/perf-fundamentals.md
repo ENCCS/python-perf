@@ -2,7 +2,6 @@
 
 :::{objectives}
 - Develop a mindset towards improving performance.
-- Know what to expect from this course
 :::
 
 :::{instructor-note}
@@ -10,15 +9,10 @@
    - 10 min teaching/type-along
 :::
 
-Python ap
 
 ## Structured approach towards optimization
 
-At this point it is important to remember this idiom.
-:::{card}  Measure, don't guess.
 
--- Somebody
-:::
 
 ## Understand how CPython interprets and executes
 

@@ -11,7 +11,9 @@ Intro
 :delim: ;
 :widths: auto
 
-15 min ; {doc}`perf-fundamentals`
+10 min ; {doc}`setup`
+10 min ; {doc}`intro`
+10 min ; {doc}`perf-fundamentals`
 xx min ; {doc}`profile`
 xx min ; {doc}`benchmark`
 xx min ; {doc}`optimize`
@@ -29,6 +31,7 @@ setup
 :caption: The lesson
 :maxdepth: 1
 
+intro
 perf-fundamentals
 ```
 
