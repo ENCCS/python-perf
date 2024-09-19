@@ -38,6 +38,7 @@ extensions = [
     "sphinx_rtd_theme_ext_color_contrast",
     "sphinx.ext.todo",
     "sphinx_design",
+    "sphinxcontrib.mermaid"
 ]
 
 # Settings for myst_nb:
