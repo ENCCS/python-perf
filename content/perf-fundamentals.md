@@ -1,14 +1,14 @@
 # Performance fundamentals
 
 :::{objectives}
+
 - Learn Python specific performance aspects
 :::
 
 :::{instructor-note}
 
-   - 10 min teaching/type-along
+- 10 min teaching/type-along
 :::
-
 
 ## Understanding the Python interpreter
 
@@ -25,10 +25,10 @@ def read_xyz_from_text_file():
         # some analysis with x, y and z
     f.close()
 ```
-Compared to C/C++/Fortran, this for-loop will probably be orders of magnitude slower!
- 
-:::
 
+Compared to C/C++/Fortran, this for-loop will probably be orders of magnitude slower!
+
+:::
 
 This happens because during the execution step CPython mostly interprets instructions. There is some level of optimization involved though. Here is a simplified schematic of how this is invoked:
 
@@ -44,13 +44,13 @@ flowchart TD
 :::{important}
 
 While doing so, the interpreter
+
 - evaluates a result, expression-by-expression.
 - every intermediate result is packed and unpacked as an instance of `object` (Python) / `PyObject` (CPython API) behind the scenes.
 
 :::
 
 :::{type-along}
-
 
 Try out the following code in [Python Tutor]
 
@@ -81,8 +81,8 @@ fake_file = io.StringIO("""\
 avg_rms = rms_from_text_file(fake_file)
 ```
 
-Be aware that this is a simplified version of the execution. Since it does not go into 
-the expression level. However you can get an idea of the intermediate objects being 
+Be aware that this is a simplified version of the execution. Since it does not go into
+the expression level. However you can get an idea of the intermediate objects being
 returned and the way the interpreter parses the code.
 
 :::
@@ -91,7 +91,9 @@ returned and the way the interpreter parses the code.
 
 :::{discussion}
 
-What kind of performance issue arise,
+In the previous episode, we described I/O, Memory and CPU bound bottlenecks.
+For the above use case and **algorithm**, and **not necessarily the same code**,
+what kind of performance issue arise,
 
 1. when the file becomes long, with several millions of lines?
 1. when the file is stored in network filesystem which is slow to respond?
@@ -99,27 +101,62 @@ What kind of performance issue arise,
 
 :::
 
-
 :::{solution}
+We can only guess at this point, but we can expect the above code to be
 
-1. CPU bound
-2. I/O bound
-3. Memory bound
+1. **CPU bound**: the `for` loop becomes a _hotspot_ and vanilla CPython
+   without JIT does not optimize this.
+2. **I/O bound**: if more time is spent in awaiting output of `f.readlines()` method
+3. **Memory bound**: if a line of data does not fit in the memory the code needs to
+   handle it in batches. The program will need to be rewritten with nested for-loop
+   which depends on the memory availability.
+
+We have to keep in mind that performance depends a lot on the kind of
+
+- input data
+- algorithm
+
+Using a better container for the input data or a better algorithm with less
+[computation complexity](https://en.wikipedia.org/wiki/Computational_complexity)
+can often outperform technical solutions.
 
 :::
 
 ## Structured approach towards optimization
 
+The first priority is to look for an more efficient:
 
+1. Data container, data structure, database etc.
+2. Algorithm
 
+If the above are not an option, then we move on to performance optimization.
 
-## Understand how CPython interprets and executes
+1. First we evaluate the overall performance by **benchmarking**.
+2. Then we measure the performance of at either function/method-level or line-level by **profiling**.
+3. Finally we generate optimized code.
 
-Let's look at Python's performance and common pitfalls
+Any Python code can be replaced using optimized instructions. This is done by
+ahead of time (AOT) / just-in-time (JIT) compilation. The question which
+remains to be answered is at which level? One can optimize:
+
+![program clip-art](./img/noun_programming.svg){w=30px} : whole programs (Nuitka, Shed Skin)
+
+![interpreter: terminal console clip-art](./img/noun_terminal.svg){w=30px} : interpreter compiling slowest loops (PyPy)
+
+![module: blocks clip-art](./img/noun_module.svg){w=30px} : **modules (`cython`, `pythran`)**
+
+![function clip-art](./img/noun_function.svg){w=30px} : **user-defined functions / methods (`numba`, `transonic`)**
+
+![equality clip-art](./img/noun_equals.svg){w=30px} : **expressions** (`numexpr`)
+
+![function clip-art](./img/noun_function.svg){w=30px} : call compiled functions (`numpy` / Python)
+
+We will take a look at some of these approaches in the coming episodes.
 
 :::{keypoints}
-- Evaluate **whether** to optimize code.
-- Measure don't guess. Find **where** the bottlenecks are.
+
 - Develop a strategy on **how** to optimize.
-- Go shopping. Look for tools and libraries to help you alleviate the performance bottlenecks.
+- Go shopping.
+  - Look for better ways of reading data or better algorithms
+  - Look for tools and libraries to help you alleviate the performance bottlenecks.
 :::

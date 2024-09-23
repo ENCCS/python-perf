@@ -1,17 +1,18 @@
 # Introduction and motivation
 
 :::{objectives}
+
 - Know what to expect from this course
 - Build a general, programming-language agnostic notion of performance
 :::
 
 :::{instructor-note}
 
-   - 10 min teaching
+- 10 min teaching
 :::
 
-Python and its defacto implementation CPython is now widely used for a 
-spectrum of applications. It has now experienced practitioners doing 
+Python and its defacto implementation CPython is now widely used for a
+spectrum of applications. It has now experienced practitioners doing
 web-development, analytics, research and data science. This is possible
 because of the following traits of the Python ecosystem:
 
@@ -38,7 +39,7 @@ because of the following traits of the Python ecosystem:
 ![JupyterLab](./img/eco_jlab_preview.webp){h=300px align=right}
 
 - [**IPython**](https://ipython.org/): an advanced **Python console**
-    
+
 - [**Jupyter**](https://jupyter.org/): **notebooks** in the browser
 
 :::
@@ -47,14 +48,14 @@ because of the following traits of the Python ecosystem:
 
 ![Pandas and Seaborn](./img/eco_pandas_seaborn.png){h=300px align=right}
 
-- [**pandas**](https://pandas.org) for reading, writing and analyzing heterogenous tabular data 
+- [**pandas**](https://pandas.org) for reading, writing and analyzing heterogenous tabular data
 
 - **statsmodels, seaborn** for [statistics](https://lectures.scientific-python.org/packages/statistics/index.html#statistics)
-    
+
 - **sympy** for [symbolic computing](https://lectures.scientific-python.org/packages/sympy.html#sympy)
-    
+
 - **scikit-image** for [image processing](https://lectures.scientific-python.org/packages/scikit-image/index.html#scikit-image)
-    
+
 - **scikit-learn** for [machine learning](https://lectures.scientific-python.org/packages/scikit-learn/index.html#scikit-learn-chapter)
 
 :::
@@ -90,12 +91,14 @@ What are the advantages and disadvantages of using Python code written using mul
 
 :::{solution}
 **Pros 👍**: This approach enables us to:
+
 - build high-level, performant applications which tend to be readable
 - focus on the problem at hand, without getting sidetracked with implementation details
 - rapidly prototype the experimental parts of the code
 - interfacing allows re-use of established codes
 
 **Cons 👎**: Some known downsides are:
+
 - interfaced codes require knowledge of multiple languages
 - compiled codes are harder to debug and rapidly-prototype
 
@@ -114,7 +117,6 @@ More on that will be discussed in the next episode.
 
 Before we dive further into the workshop it is important to remember some idioms, which is true in the case of most real-world applications.
 
-
 :::{card} Limitations of performance improvement
 
 > The overall performance improvement gained by optimizing a single part of a system is **limited by the fraction of time that the improved part is actually used**.
@@ -123,7 +125,7 @@ Before we dive further into the workshop it is important to remember some idioms
 :::
 
 [^2]: Although Amdahl's law is about speedup due to parallelization, we can still
-    associate it with speedup of serial programs. This is because the law is 
+    associate it with speedup of serial programs. This is because the law is
     formulated in terms of execution-time.
 
 :::{card} Premature optimization is the root of all evil.
@@ -155,8 +157,6 @@ Before we dive further into the workshop it is important to remember some idioms
 - Tests can help in maintain correctness before you change the code.
 
 - CPU-bound or I/O-bound or memory bound?
-
-- Measure, don't guess! Run a profiler to give insights into which parts of the code need attention.
 
 - Do not optimize everything.
 
