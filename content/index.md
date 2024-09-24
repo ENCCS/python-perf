@@ -59,3 +59,20 @@ Software developers, researchers, students who use Python often and process a lo
 ## See also
 
 ## Credits
+
+The lesson is inspired and derived from the following:
+
+### Creative Commons [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) licensed material
+
+- https://github.com/ENCCS/hpda-python
+- https://github.com/ENCCS/word-count-hpda
+- https://github.com/coderefinery/word-count
+- https://hpc-carpentry.github.io/hpc-python/
+- Images and description by [authors of lectures.scientific-python.org](https://lectures.scientific-python.org/preface.html#authors) 
+and by [authors of deep-learning-intro](https://github.com/carpentries-incubator/deep-learning-intro/blob/main/AUTHORS)
+- PyCon Sweden 2019 talk on https://talks.fluid.quest/
+
+### Other open-source licenced material
+
+- Images by [authors of Project Jupyter](https://jupyter.org) is licensed under [BSD 3-Clause "New" or "Revised" License](https://github.com/jupyter/jupyter.github.io/blob/main/LICENSE)
+- Images from [The Noun Project](https://thenounproject.com) is licensed under [CC-BY 3.0](https://creativecommons.org/licenses/by/3.0/.)

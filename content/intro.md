@@ -18,7 +18,7 @@ because of the following traits of the Python ecosystem:
 
 - Batteries included
 - High-level programming that abstracts away the technical details
-- Mature well-maintained libraries which form a firm foundation, the scientific Python ecosystem[^ecosystem], which includes:
+- Mature well-maintained libraries which form a firm foundation, the scientific Python ecosystem, which includes:
 
 ::::{tab-set}
 
@@ -63,8 +63,6 @@ because of the following traits of the Python ecosystem:
 ::::
 
 and many more...
-
-[^ecosystem]: Images and description by [authors of lectures.scientific-python.org](https://lectures.scientific-python.org/preface.html#authors) is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), by [authors of Project Jupyter](https://jupyter.org)  is licensed under [BSD 3-Clause "New" or "Revised" License](https://github.com/jupyter/jupyter.github.io/blob/main/LICENSE) and by [authors of deep-learning-intro](https://github.com/carpentries-incubator/deep-learning-intro/blob/main/AUTHORS) is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
 ## Extensions: a technical detail hidden in plain sight
 
