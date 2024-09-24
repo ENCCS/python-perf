@@ -49,7 +49,7 @@ It requires admin / root privileges.
 # python -m pyperf system tune
 ```
 
-## Benchmark
+## Benchmark using `time`
 
 In order to observe the cost of computation, we need to choose a 
 sufficiently large input data file and time the computation. We can
@@ -174,10 +174,10 @@ sys     0m0,180s
 :::::
 
 
-### Timeit for reproducible benchmarks
+## Benchmark using `timeit`
 
 If you run the `%time` magic / `time` command again, you will notice 
-that the results vary a bit. To get a reliable answer we should repeat
+that the results vary a bit. To get a **reliable** answer we should repeat
 the benchmark several times using [`timeit`]. [`timeit`] is part of
 the Python standard library and it can be imported in a Python script
 or used via a command-line interface.
