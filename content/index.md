@@ -67,6 +67,7 @@ The lesson is inspired and derived from the following:
 - https://github.com/ENCCS/hpda-python
 - https://github.com/ENCCS/word-count-hpda
 - https://github.com/coderefinery/word-count
+- https://coderefinery.github.io/reproducible-research
 - https://hpc-carpentry.github.io/hpc-python/
 - Images and description by [authors of lectures.scientific-python.org](https://lectures.scientific-python.org/preface.html#authors) 
 and by [authors of deep-learning-intro](https://github.com/carpentries-incubator/deep-learning-intro/blob/main/AUTHORS)
