@@ -36,7 +36,8 @@ $ python source/plotcount.py processed_data/pg99.dat results/pg99.png
 ## Preparation: Use `pyperf` to tune your system
 
 Most personal laptops would be running in a power-saver / balanced power management mode.
-This would include that the system has a scaling governor which can change the CPU clock frequency on demand. This can cause **jitter**
+This would include that the system has a scaling governor which can change 
+the CPU clock frequency on demand, among other things. This can cause **jitter**
 which means that benchmarks are not reproducible enough and are less reliable.
 
 In order to improve reliability of your benchmarks consider running the following
@@ -49,8 +50,13 @@ It requires admin / root privileges.
 # python -m pyperf system tune
 ```
 
+When you are done with the lesson, you can run `python -m pyperf system reset` or
+restart the computer to go back to your default CPU settings.
+
 ### See also
 
+- <https://pyperf.readthedocs.io/en/latest/system.html#operations-and-checks-of-the-pyperf-system-command>
+- <https://pyperf.readthedocs.io/en/latest/run_benchmark.html#how-to-get-reproducible-benchmark-results>
 - <https://pyperformance.readthedocs.io/usage.html#how-to-get-stable-benchmarks>
 
 
@@ -182,6 +188,19 @@ sys     0m0,180s
 
 :::::
 
+:::{note}
+What are the implications of this small benchmark test?
+
+It takes a few seconds to analyze a 45 MB file. Imagine that you are
+working in a library and you are tasked with running this on several
+terabytes of data.
+
+- 10 TB = 10 000 000 MB
+- Current processing speed = 45 MB / 2.8 s ~ 16 MB/s
+- Estimated time = 10 000 000 / 16 = 625 000 s = 7.2 days
+
+Then the same script would take days to complete!
+:::
 
 ## Benchmark using `timeit`
 
