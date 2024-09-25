@@ -49,6 +49,11 @@ It requires admin / root privileges.
 # python -m pyperf system tune
 ```
 
+### See also
+
+- <https://pyperformance.readthedocs.io/usage.html#how-to-get-stable-benchmarks>
+
+
 ## Benchmark using `time`
 
 In order to observe the cost of computation, we need to choose a 
@@ -56,6 +61,8 @@ sufficiently large input data file and time the computation. We can
 do that by concatenating all the books into a single input file
 approximately 45 MB in size.
 
+
+:::::{type-along}
 
 ::::{tab-set}
 :sync-group: env
@@ -114,12 +121,14 @@ $ time python source/wordcount.py data/concat.txt processed_data/concat.dat
 
 ::::
 
+:::::
+
 :::::{solution}
 
 ::::{tab-set}
 :sync-group: env
 
-:::{tab-item} IPython
+:::{tab-item} IPython / Jupyter
 :sync: ipy
 
 ```ipython
@@ -217,19 +226,37 @@ In [6]: %timeit wordcount.word_count("data/concat.txt", "processed_data/concat.d
 :::{tab-item} Unix Shell
 :sync: sh
 
-```sh
+We could use `python -m timeit` which is the CLI interface of the standard library module `timeit`,
+
+```console
 $ export PYTHONPATH=source
 $ python -m timeit --setup 'import wordcount' 'wordcount.word_count("data/concat.txt", "processed_data/concat.dat", 1)'
-# 1 loop, best of 5: 2.75 sec per loop
+1 loop, best of 5: 2.75 sec per loop
 ```
+
+or an even better alternative is using `python -m pyperf timeit`
+
+```console
+$ export PYTHONPATH=source
+$ python -m pyperf timeit --fast --setup 'import wordcount' 'wordcount.word_count("data/concat.txt", "processed_data/concat.dat", 1)'
+...........
+Mean +- std dev: 2.72 sec +- 0.22 sec
+```
+
 :::
 ::::
+
+Notice that the output reports the **arithmetic mean and standard deviation** of timings. This is a good choice, since it means that **outliers and temporary spikes in results are not automatically removed**, which could be as a result of:
+
+- garbage collection
+- JIT compilation
+- CPU or memory resource limitations
 
 :::{keypoints}
 
 - `pyperf` can be used to tune the system
 - We understood the use of `time` and `timeit` to create benchmarks
-- `time` is faster
-- `timeit` is more reliable
+- `time` is faster, since it is executed only once
+- `timeit` is more reliable, since it collects statistics
 
 :::
