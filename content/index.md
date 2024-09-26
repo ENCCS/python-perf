@@ -77,3 +77,5 @@ and by [authors of deep-learning-intro](https://github.com/carpentries-incubator
 
 - Images by [authors of Project Jupyter](https://jupyter.org) is licensed under [BSD 3-Clause "New" or "Revised" License](https://github.com/jupyter/jupyter.github.io/blob/main/LICENSE)
 - Images from [The Noun Project](https://thenounproject.com) is licensed under [CC-BY 3.0](https://creativecommons.org/licenses/by/3.0/.)
+- Code from <https://github.com/paugier/nbabel> is licensed under [GPLv2](https://github.com/paugier/nbabel/blob/main/LICENSE)
+- Video from <https://en.wikipedia.org/wiki/File:Galaxy_collision.ogv> licensed under [CC-BY 3.0](https://creativecommons.org/licenses/by/3.0/.)

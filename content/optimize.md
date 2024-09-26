@@ -240,18 +240,81 @@ sys     0m0,288s
 
 - Pythran can be used to escape interaction the GIL, but it has a similar performance. Source code: 
   [](./wordcount/v1_2.py) and [](./wordcount/v1_2_pythran.py)
-- This is a very poor example, but when it involves contiguous data structures such as lists or arrays of numbers
-  these accelerators can give amazing performance boosts. See here for a related example
-  <https://enccs.github.io/hpda-python/performance-boosting/>
-
 :::
 
 ::::
 
+### When do we use accelerators?
+
+#### An example: Astrophysics N-body problem
+To simulate an [N-body problem](https://en.wikipedia.org/wiki/N-body_simulation) using a naive algorithm involves
+{math}`O(N^2)` operations for each time-step.
+
+<video controls width="640">
+  <source src="./_images/Galaxy_collision.mp4" type="video/mp4" />
+  Simulation of the interactions between two galaxies as they pass by each other. The simulation contains 5000 Stars.
+  Source: <https://en.wikipedia.org/wiki/File:Galaxy_collision.ogv>
+</video>
+
+##### Naive Python version
+
+It uses a list of Numpy arrays!
+
+:::{literalinclude} ./nbabel/bench0.py
+
+:::
+
+##### Numpy vectorized version
+
+:::{literalinclude} ./nbabel/bench_numpy_highlevel.py
+
+:::
+
+::::{demo}
+
+**Data** for 16-bodies: [](./nbabel/input16)
+
+- Naive Python version: [](./nbabel/bench0.py)
+- Numpy vectorized version: [](./nbabel/bench_numpy_highlevel.py)
+- Numpy vectorized version + JIT compilation using Transonic and Pythran: [](./nbabel/bench_numpy_highlevel_jit.py)
+
+```console
+$ time python bench0.py input16
+$ time bench_numpy_highlevel.py input16
+$ export TRANSONIC_BACKEND=pythran
+$ time bench_numpy_highlevel_jit.py input16  # Rerun after Pythran module is compiled
+```
+
+:::{solution}
+
+```console
+$ time python bench0.py input16
+...
+run in 0:00:12.637249
+
+$ time bench_numpy_highlevel.py input16
+...
+10001 time steps run in 0:00:04.297485
+
+$ export TRANSONIC_BACKEND=pythran
+$ time bench_numpy_highlevel_jit.py input16  # Rerun after Pythran module is compiled
+...
+10001 time steps run in 0:00:00.042925
+```
+
+~300x speedup by using Pythran!
+
+::::
 
 :::{keypoints}
 
 - Algortihmic optimizations are often better
 - Accelerators work well with contiguous data structures
+- The word-count problem is a poor candidate, but when it involves
+  contiguous data structures such as arrays of numbers
+  these accelerators can give amazing performance boosts. See here:
+    - <https://enccs.github.io/hpda-python/performance-boosting/>
+    - <https://github.com/paugier/nbabel/>
+
 
 :::
