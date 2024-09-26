@@ -2,9 +2,9 @@
 
 :::{objectives}
 
-- Introduce the 
-- Preparing the system for benchmarking
-- Running benchmarks
+- Introduce the example problem
+- Preparing the system for benchmarking using `pyperf`
+- Learn how to runing benchmarks using `time`, `timeit` and `pyperf timeit`
 
 :::
 
