@@ -256,7 +256,7 @@ To simulate an [N-body problem](https://en.wikipedia.org/wiki/N-body_simulation)
 
 
 <video controls width="640">
-  <source src="./_images/Galaxy_collision.mp4" type="video/mp4" />
+  <source src="/_images/Galaxy_collision.mp4" type="video/mp4" />
   Simulation of the interactions between two galaxies as they pass by each other. The simulation contains 5000 Stars.
   Source: <https://en.wikipedia.org/wiki/File:Galaxy_collision.ogv>
 </video>
