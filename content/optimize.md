@@ -92,6 +92,25 @@ sys     0m0,147s
 
 ## Option 2: using an accelerator
 
+### Accelerators
+
+The following are the few well-known accelerators for Python-Numpy applications.
+
+:::{csv-table}
+:header: >
+:    "Accelerator", "Compiles", "Implemented in", "Level",  "Supports", "Advantage"
+:widths: 10, 10, 5, 5, 10, 20
+Cython, "Ahead of time", C, Module, "All of Python, Numpy, and C", "Generic and can also interface C,C++"
+Pythran, "Ahead of time", C++, Module, "Most Python and Numpy features", "Escapes GIL always, can optimize vectorized code without loops. Can parallelize using OpenMP."
+Numba, "Just in time", LLVM, Function, "Most Python and Numpy features", "Specializes in Numeric codes. Has GPU support, can parallelize"
+Jax, "Just in time", C++, "Function or Expression", "Most Python and Numpy features", "Drop-in alternative for Numpy. Designed for creating ML libraries"
+Cupy, "Pre-compiled / JIT", "Cython / C / C++", "Function or Expression", "Numpy and Scipy", "Drop-in alternative for Numpy. Supports CUDA and ROCm GPUs"
+:::
+
+In this example we shall demonstrate **Cython** via a package called
+**Transonic** . Transonic lets you switch between Cython, Numba, Pythran and to some extent
+Jax using very similar syntax
+
 ### Refactoring
 
 One complication with optimizing `update_word_counts` is that it is an
@@ -145,26 +164,7 @@ inside `calculate_word_counts` function.
 
 ::: -->
 
-### Accelerators
-
-The following are the few well-known accelerators for Python-Numpy applications.
-
-:::{csv-table}
-:header: >
-:    "Accelerator", "Compiles", "Implemented in", "Level",  "Supports", "Advantage"
-:widths: 10, 10, 5, 5, 10, 20
-Cython, "Ahead of time", C, Module, "All of Python, Numpy, and C", "Generic and can also interface C,C++"
-Pythran, "Ahead of time", C++, Module, "Most Python and Numpy features", "Escapes GIL always, can optimize vectorized code without loops. Can parallelize using OpenMP."
-Numba, "Just in time", LLVM, Function, "Most Python and Numpy features", "Specializes in Numeric codes. Has GPU support, can parallelize"
-Jax, "Just in time", C++, "Function or Expression", "Most Python and Numpy features", "Drop-in alternative for Numpy. Designed for creating ML libraries"
-Cupy, "Pre-compiled / JIT", "Cython / C / C++", "Function or Expression", "Numpy and Scipy", "Drop-in alternative for Numpy. Supports CUDA and ROCm GPUs"
-:::
-
-In this example we shall demonstrate **Cython** via a package called
-**Transonic** . Transonic lets you switch between Cython, Numba, Pythran and to some extent
-Jax using very similar syntax.
-
-### Cython
+#### Cython
 
 To use Transonic we add decorators to functions we need to optimize.
 There are two decorators
