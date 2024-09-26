@@ -48,6 +48,12 @@ by schedulers on a single machine or a cluster. From the
 [Dask documentation](https://docs.dask.org/en/stable/)
 :::
 
+### Dask distributed and dashboard
+
+Dask has a plugin package known as [distributed](https://distributed.dask.org/en/stable/)
+which brings in the capability to tap into a variety of computing setups: ranging
+from local machines to HPC/Supercomputers and Kubernetes clusters. It also has an integrated
+web application called dashboard to monitor the application.
 
 ### Dask Bag
 
@@ -65,7 +71,7 @@ multiple functions in the ``source/wordcount.py`` code) looks like this:
 
 :::{code-block} python
 
-filename = './data/pg10.txt'
+filename = './data/concat.txt'
 DELIMITERS = ". , ; : ? $ @ ^ < > # % ` ! * - = ( ) [ ] { } / \" '".split()
 
 with open(filename, "r") as input_fd:
@@ -98,7 +104,7 @@ A very compact ``dask.bag`` version of this code is as follows:
 
 import dask.bag as db
 
-filename = './data/pg10.txt'
+filename = './data/concat.txt'
 DELIMITERS = ". , ; : ? $ @ ^ < > # % ` ! * - = ( ) [ ] { } / \" '".split()
 
 text = db.read_text(filename, blocksize='1MiB')
@@ -121,6 +127,7 @@ The last two steps of the pipeline could also have been done with a Dask datafra
 
 :::{code-block} python
 
+text = db.read_text(filename, blocksize='1MiB')
 filtered = (
     text
     .filter(lambda word: word not in DELIMITERS)
@@ -135,6 +142,16 @@ ddf['words'].value_counts().compute()[:10]
 
 ::::
 
+### Dashboard
+
+Try adding the following snippet and visualize the run in a dashboard
+
+```python
+from dask.distributed import Client
+client = Client()  # start distributed scheduler locally.
+client
+```
+
 :::{callout} When to use Dask
 
 There is no benefit from using Dask on small datasets. But imagine we were 
@@ -142,5 +159,3 @@ analysing a very large text file (all tweets in a year? a genome?). Dask provide
 both parallelisation and the ability to utilize RAM on multiple machines.
 
 :::
-
-###
