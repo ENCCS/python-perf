@@ -10,6 +10,9 @@
 
 :::{instructor-note}
 
+- 15 min teaching/demo
+- No type-along intended
+
 :::
 
 ## Targeting the most expensive function

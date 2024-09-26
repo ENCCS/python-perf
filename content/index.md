@@ -1,10 +1,12 @@
 # Python performance workshop
 
-Intro
+This mini-workshop is intended for Python developers who are interested in writing code with
+better performance and potentially running it on supercomputers.
 
 :::{prereq}
 
-- Python programming basics (functions, `for` loops, `if`-`else` statements) and data structures (`list`, `set`, `dict`, `tuple`)
+- Python programming basics (functions, `for` loops, `if`-`else` statements)
+  and data structures (`list`, `set`, `dict`, `tuple`)
 - Familiarity with well-known numeric libraries (for example, Numpy)
 :::
 
@@ -12,13 +14,14 @@ Intro
 :delim: ;
 :widths: auto
 
-10 min ; {doc}`setup`
-10 min ; {doc}`intro`
+5 min ; {doc}`setup`
+5 min ; {doc}`intro`
 10 min ; {doc}`perf-fundamentals`
-xx min ; {doc}`benchmark`
-xx min ; {doc}`profile`
-xx min ; {doc}`optimize`
-xx min ; {doc}`parallelize`
+15 min ; {doc}`benchmark`
+15 min ; {doc}`profile`
+5-10 min ; **Break**
+15 min ; {doc}`optimize`
+5 min ; {doc}`parallelize`
 ```
 
 ```{toctree}
@@ -53,10 +56,6 @@ guide
 ## Who is the course for?
 
 Software developers, researchers, students who use Python often and process a lot of data.
-
-## About the course
-
-## See also
 
 ## Credits
 

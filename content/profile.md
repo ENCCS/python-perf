@@ -9,6 +9,7 @@
 
 :::{instructor-note}
 
+- 15 min teaching/type-along
 :::
 
 

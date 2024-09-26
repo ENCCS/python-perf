@@ -8,7 +8,9 @@
 
 :::{instructor-note}
 
-- 10 min teaching
+- Inform the format of this talk
+    - Mix of talk, type-along and demos
+- 5 min teaching
 :::
 
 Python and its defacto implementation CPython is now widely used for a

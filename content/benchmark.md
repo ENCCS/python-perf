@@ -10,6 +10,7 @@
 
 :::{instructor-note}
 
+- 15 min teaching/type-along
 :::
 
 ## The problem: word-count-hpda

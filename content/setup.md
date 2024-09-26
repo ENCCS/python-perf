@@ -3,6 +3,13 @@
 This page contains instructions for installing the required dependencies
 on a local computer.
 
+:::{instructor-note}
+
+- 5 min to initialize the setup and `conda` / `pip` command
+- Let `conda env create` / `pip install` run in the background
+
+:::
+
 ## Local installation
 
 If you already have a preferred way to manage Python versions and

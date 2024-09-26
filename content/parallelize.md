@@ -8,6 +8,8 @@
 
 :::{instructor-note}
 
+- 5 min teaching/demo
+
 :::
 
 ## Different ways to do parallelization
