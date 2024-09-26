@@ -37,8 +37,10 @@ def load_word_counts(filename):
     return counts
 
 
+# NOTE: using regex
 import re
-DELIMITERS = re.compile(r"[\.,;:?$@^<>#%`!\*-=\(\)\[\]\{\}/\\]*")
+# WARNING: there is a bug in the regular expression below!
+DELIMITERS = re.compile(r"[\.,;:?$@^<>#%`!\*-=\(\)\[\]\{\}/\\]")
 
 
 def update_word_counts(line, counts):

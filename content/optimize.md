@@ -2,6 +2,7 @@
 :::{objectives}
 
 - Optimize the most expensive function from the word-count-hpda project's `wordcount.py` script.
+- Show how changes to algorithm influences the performance.
 - Introduce a few Python **accelerators**: `cython`, `numba`, `pythran`
 - Mention the library `transonic`
 
@@ -29,6 +30,65 @@ a snippet from profiling output.
 ```
 
 ## Option 1: changing the algorithm
+
+If we look at the output from the line profiler, we can see that the following two lines 
+are the most time-consuming.
+
+:::{code-block} python
+:emphasize-lines: 8,9
+
+def update_word_counts(line, counts):
+    """
+    Given a string, parse the string and update a dictionary of word
+    counts (mapping words to counts of their frequencies). DELIMITERS are
+    removed before the string is parsed. The function is case-insensitive
+    and words in the dictionary are in lower-case.
+    """
+    for purge in DELIMITERS:
+        line = line.replace(purge, " ")
+    words = line.split()
+    for word in words:
+        word = word.lower().strip()
+        if word in counts:
+            counts[word] += 1
+        else:
+            counts[word] = 1
+:::
+
+::::{demo}
+Instead of a `for` loop and a `str.replace` we could use a single regular 
+expression substitution. This change would look like this
+
+:::{literalinclude} wordcount/v0_1.py
+:start-after: using regex
+:end-before: calculate_word_counts
+:::
+
+If we run our benchmark with the original code (`v0.py`) and the regex version (`v0_1.py`),
+we get
+
+```console
+
+$ time python v0.py data/concat.txt processed_data/concat.dat
+
+real    0m2,934s
+user    0m2,733s
+sys     0m0,191s
+$ time python v0_1.py data/concat.txt processed_data/concat.dat
+
+real    0m2,472s
+user    0m2,320s
+sys     0m0,147s
+
+```
+
+:::{discussion} Summary
+- There is a marginal gain of ~0.5 s which amounts to a 16% performance boost.
+- Such changes are less maintainable, but sometime necessary.
+:::
+::::
+
+
 
 ## Option 2: using an accelerator
 
@@ -106,8 +166,7 @@ Jax using very similar syntax.
 
 ### Cython
 
-Cython has an ability to create _inline functions_ and this is also supported in 
-Transonic. To use Transonic we add decorators to functions we need to optimize.
+To use Transonic we add decorators to functions we need to optimize.
 There are two decorators
 
 - `@transonic.boost` to create ahead-of-time (AOT) compiled modules and it requires type annotations
@@ -133,13 +192,16 @@ We make a few changes to the code:
 - Add `@boost` decorators
 - Add type annotations as [required by transonic](https://transonic.readthedocs.io/en/latest/examples/type_hints.html).
 
+Cython has an ability to create _inline functions_ and this is also supported in Transonic. Therefore
+it is OK that `update_word_counts` is impure.
+
 :::{literalinclude} wordcount/v1_1.py
 :start-after: optimize using transonic
 :end-before: def word_count_dict_to_tuples
 
 :::
 
-Then compile it
+Then compile the file [](./wordcount/v1_1.py)
 
 ```console
 $ export TRANSONIC_BACKEND=cython
@@ -168,7 +230,7 @@ sys     0m0,288s
 ```
 
 
-:::{discussion}
+:::{discussion} Summary
 **We see that the compiled function made the script slower**! This could happen because of a few reasons
 - Python's dictionary which uses hash-maps, is quite optimized and it is hard to beat it
 - Cython interacts with Python a lot. This can be analyzed by running `cd __cython__; cythonize --annotate v1_1.py`
@@ -176,9 +238,11 @@ sys     0m0,288s
 
 ![](./img/Cython_v1_1_py.png)
 
-- Pythran can be used to escape interaction the GIL, but it has a similar performance.
+- Pythran can be used to escape interaction the GIL, but it has a similar performance. Source code: 
+  [](./wordcount/v1_2.py) and [](./wordcount/v1_2_pythran.py)
 - This is a very poor example, but when it involves contiguous data structures such as lists or arrays of numbers
-  these accelerators can give amazing performance boosts.
+  these accelerators can give amazing performance boosts. See here for a related example
+  <https://enccs.github.io/hpda-python/performance-boosting/>
 
 :::
 
@@ -188,4 +252,6 @@ sys     0m0,288s
 :::{keypoints}
 
 - Algortihmic optimizations are often better
-- Accelerators work only in certain cases.
+- Accelerators work well with contiguous data structures
+
+:::
