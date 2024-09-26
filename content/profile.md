@@ -35,6 +35,12 @@ the output to file instead. A report can be generated using the ```pstats``` com
 
 Let's profile the ```wordcount``` script and write the results to a file.
 
+::::{warning}
+Use the shell variant. The profiling output from Jupyter, although it seems to work, is hard to decipher.
+::::
+
+
+
 ::::{tab-set}
 :sync-group: env
 
@@ -104,7 +110,9 @@ dependecies installed in this virtual/Conda environment.
 
 ::::::{type-along}
 
+
 :::::{tab-set}
+:sync-group: env
 
 ::::{tab-item} IPython / Jupyter
 :sync: ipy
@@ -126,7 +134,7 @@ this will `not` work.
 :::: 
 
 ::::{tab-item} Unix Shell
-:sync: ipy
+:sync: sh
 
 We can run SnakeViz as:
 
@@ -186,6 +194,10 @@ For this reason, we need to import the relevant decorator at the beginning of th
 
 ```python
 from line_profiler import profile
+```
+
+```{note}
+The tool will also work without the import
 ```
 
 We can now mark the ```update_word_counts``` function with the ```@profile``` decorator:
