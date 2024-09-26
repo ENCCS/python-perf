@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Performance fundamentals &mdash; Python performance workshop  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx_lesson.css?v=0c089442" />
+      <link rel="stylesheet" type="text/css" href="../_static/term_role_formatting.css?v=4194e21c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx_rtd_theme_ext_color_contrast.css?v=8e8ea19f" />
+      <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../_static/overrides.css?v=0572569b" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=187304be"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script src="../_static/minipres.js?v=a0d29692"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script src="../_static/design-tabs.js?v=f930bc37"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script src="https://unpkg.com/mermaid@10.2.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Benchmark" href="../benchmark/" />
+    <link rel="prev" title="Introduction and motivation" href="../intro/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../" class="icon icon-home">
+            Python performance workshop
+              <img src="../_static/ENCCS.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Preparation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup/">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The lesson</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro/">Introduction and motivation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Performance fundamentals</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#understanding-the-python-interpreter">Understanding the Python interpreter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#structured-approach-towards-optimization">Structured approach towards optimization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../profile/">Profile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/">Optimize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallelize/">Parallelize</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick-reference/">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/">Instructor’s guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">Python performance workshop</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Performance fundamentals</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/content/blob/main/content/perf-fundamentals.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="performance-fundamentals">
+<h1>Performance fundamentals<a class="headerlink" href="#performance-fundamentals" title="Link to this heading"></a></h1>
+<div class="admonition-objectives objectives admonition" id="objectives-0">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Learn Python specific performance aspects</p></li>
+</ul>
+</div>
+<div class="admonition-instructor-note instructor-note admonition" id="instructor-note-0">
+<p class="admonition-title">Instructor note</p>
+<ul class="simple">
+<li><p>10 min teaching/type-along</p></li>
+</ul>
+</div>
+<section id="understanding-the-python-interpreter">
+<h2>Understanding the Python interpreter<a class="headerlink" href="#understanding-the-python-interpreter" title="Link to this heading"></a></h2>
+<div class="admonition-performance-bottlenecks-in-python discussion important admonition" id="discussion-0">
+<p class="admonition-title">Performance bottlenecks in Python</p>
+<p>Have you ever written Python scripts that look something like this?</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">read_xyz_from_text_file</span><span class="p">():</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;mydata.dat&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fields</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fields</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="c1"># some analysis with x, y and z</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Compared to C/C++/Fortran, this for-loop will probably be orders of magnitude slower!</p>
+</div>
+<p>This happens because during the execution step CPython mostly interprets instructions. There is some level of optimization involved though. Here is a simplified schematic of how this is invoked:</p>
+<div class="mermaid">
+            flowchart TD
+    a[Source code in .py files] --&gt; tok[Tokenizer]
+    tok --&gt; ast[Abstract Syntax Tree]
+    ast --&gt; c[Byte-code: __pycache__]
+    c --&gt; d[Machine code in Python Virtual Machine]
+    d --&gt; c
+        </div><div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>While doing so, the interpreter</p>
+<ul class="simple">
+<li><p>evaluates a result, expression-by-expression.</p></li>
+<li><p>every intermediate result is packed and unpacked as an instance of <code class="docutils literal notranslate"><span class="pre">object</span></code> (Python) / <code class="docutils literal notranslate"><span class="pre">PyObject</span></code> (CPython API) behind the scenes.</p></li>
+</ul>
+</div>
+<div class="admonition-type-along type-along important admonition" id="type-along-0">
+<p class="admonition-title">Type-Along</p>
+<p>Try out the following code in <a class="reference external" href="https://pythontutor.com/render.html#code=import%20io%0A%0Adef%20rms_from_text_file%28f%29%3A%0A%20%20%20%20%22%22%22Compute%20root-mean-square%20of%20comma-separated%20values.%22%22%22%0A%20%20%20%20rms%20%3D%200%0A%20%20%20%20n_samples%20%3D%200%0A%20%20%20%20%0A%20%20%20%20for%20line%20in%20f.readlines%28%29%3A%0A%20%20%20%20%20%20%20%20fields%20%3D%20line.split%28%22,%22%29%0A%20%20%20%20%20%20%20%20x,%20y,%20z%20%3D%20float%28fields%5B0%5D%29,%20float%28fields%5B1%5D%29,%20float%28fields%5B2%5D%29%0A%20%20%20%20%20%20%20%20%23%20compute%20root-mean-square%20value%0A%20%20%20%20%20%20%20%20rms%20%2B%3D%20%28%28x**2%20%2B%20y**2%20%2B%20z**2%29%20/%203%29%20**%200.5%0A%20%20%20%20%20%20%20%20n_samples%20%2B%3D%201%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20return%20rms%20/%20n_samples%0A%0A%0Afake_file%20%3D%20io.StringIO%28%22%22%22%5C%0A0.27194615,0.85939776,0.76905204%0A0.51586611,0.59174447,0.06501842%0A0.23109192,0.8260391,0.08045166%0A%22%22%22%29%0A%0Aavg_rms%20%3D%20rms_from_text_file%28fake_file%29&amp;amp;cumulative=false&amp;amp;curInstr=0&amp;amp;heapPrimitives=nevernest&amp;amp;mode=display&amp;amp;origin=opt-frontend.js&amp;amp;py=311&amp;amp;rawInputLstJSON=%5B%5D&amp;amp;textReferences=false">Python Tutor</a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">io</span>
+
+<span class="k">def</span> <span class="nf">rms_from_text_file</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute root-mean-square of comma-separated values.&quot;&quot;&quot;</span>
+    <span class="n">rms</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="c1"># compute root-mean-square value</span>
+        <span class="n">rms</span> <span class="o">+=</span> <span class="p">((</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+        <span class="n">n_samples</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+    <span class="k">return</span> <span class="n">rms</span> <span class="o">/</span> <span class="n">n_samples</span>
+
+
+<span class="n">fake_file</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">0.27194615,0.85939776,0.76905204</span>
+<span class="s2">0.51586611,0.59174447,0.06501842</span>
+<span class="s2">0.23109192,0.8260391,0.08045166</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">avg_rms</span> <span class="o">=</span> <span class="n">rms_from_text_file</span><span class="p">(</span><span class="n">fake_file</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Be aware that this is a simplified version of the execution. Since it does not go into
+the expression level. However you can get an idea of the intermediate objects being
+returned and the way the interpreter parses the code.</p>
+</div>
+<div class="admonition-discussion discussion important admonition" id="discussion-1">
+<p class="admonition-title">Discussion</p>
+<p>In the previous episode, we described I/O, Memory and CPU bound bottlenecks.
+For the above use case and <strong>algorithm</strong>, and <strong>not necessarily the same code</strong>,
+what kind of performance issue arise,</p>
+<ol class="arabic simple">
+<li><p>when the file becomes long, with several millions of lines?</p></li>
+<li><p>when the file is stored in network filesystem which is slow to respond?</p></li>
+<li><p>when instead of 3 fields, <code class="docutils literal notranslate"><span class="pre">x,</span> <span class="pre">y,</span> <span class="pre">z</span></code>, you have to read 10 million fields for every line of the text?</p></li>
+</ol>
+</div>
+<div class="admonition-solution solution important dropdown admonition" id="solution-0">
+<p class="admonition-title">Solution</p>
+<p>We can only guess at this point, but we can expect the above code to be</p>
+<ol class="arabic simple">
+<li><p><strong>CPU bound</strong>: the <code class="docutils literal notranslate"><span class="pre">for</span></code> loop becomes a <em>hotspot</em> and vanilla CPython
+without JIT does not optimize this.</p></li>
+<li><p><strong>I/O bound</strong>: if more time is spent in awaiting output of <code class="docutils literal notranslate"><span class="pre">f.readlines()</span></code> method</p></li>
+<li><p><strong>Memory bound</strong>: if a line of data does not fit in the memory the code needs to
+handle it in batches. The program will need to be rewritten with nested for-loop
+which depends on the memory availability.</p></li>
+</ol>
+<p>We have to keep in mind that performance depends a lot on the kind of</p>
+<ul class="simple">
+<li><p>input data</p></li>
+<li><p>algorithm</p></li>
+</ul>
+<p>Using a better container for the input data or a better algorithm with less
+<a class="reference external" href="https://en.wikipedia.org/wiki/Computational_complexity">computation complexity</a>
+can often outperform technical solutions.</p>
+</div>
+</section>
+<section id="structured-approach-towards-optimization">
+<h2>Structured approach towards optimization<a class="headerlink" href="#structured-approach-towards-optimization" title="Link to this heading"></a></h2>
+<p>The first priority is to look for an more efficient:</p>
+<ol class="arabic simple">
+<li><p>Data container, data structure, database etc.</p></li>
+<li><p>Algorithm</p></li>
+</ol>
+<p>If the above are not an option, then we move on to performance optimization.</p>
+<ol class="arabic simple">
+<li><p>First we evaluate the overall performance by <strong>benchmarking</strong>.</p></li>
+<li><p>Then we measure the performance of at either function/method-level or line-level by <strong>profiling</strong>.</p></li>
+<li><p>Finally we generate optimized code.</p></li>
+</ol>
+<p>Any Python code can be replaced using optimized instructions. This is done by
+ahead of time (AOT) / just-in-time (JIT) compilation. The question which
+remains to be answered is at which level? One can optimize:</p>
+<p><a class="reference internal" href="../_images/noun_programming.svg"><img alt="program clip-art" src="../_images/noun_programming.svg" style="width: 30px;" /></a> : whole programs (Nuitka, Shed Skin)</p>
+<p><a class="reference internal" href="../_images/noun_terminal.svg"><img alt="interpreter: terminal console clip-art" src="../_images/noun_terminal.svg" style="width: 30px;" /></a> : interpreter compiling slowest loops (PyPy)</p>
+<p><a class="reference internal" href="../_images/noun_module.svg"><img alt="module: blocks clip-art" src="../_images/noun_module.svg" style="width: 30px;" /></a> : <strong>modules (<code class="docutils literal notranslate"><span class="pre">cython</span></code>, <code class="docutils literal notranslate"><span class="pre">pythran</span></code>)</strong></p>
+<p><a class="reference internal" href="../_images/noun_function.svg"><img alt="function clip-art" src="../_images/noun_function.svg" style="width: 30px;" /></a> : <strong>user-defined functions / methods (<code class="docutils literal notranslate"><span class="pre">numba</span></code>, <code class="docutils literal notranslate"><span class="pre">transonic</span></code>)</strong></p>
+<p><a class="reference internal" href="../_images/noun_equals.svg"><img alt="equality clip-art" src="../_images/noun_equals.svg" style="width: 30px;" /></a> : <strong>expressions</strong> (<code class="docutils literal notranslate"><span class="pre">numexpr</span></code>)</p>
+<p><a class="reference internal" href="../_images/noun_function.svg"><img alt="function clip-art" src="../_images/noun_function.svg" style="width: 30px;" /></a> : call compiled functions (<code class="docutils literal notranslate"><span class="pre">numpy</span></code> / Python)</p>
+<p>We will take a look at some of these approaches in the coming episodes.</p>
+<div class="admonition-keypoints keypoints admonition" id="keypoints-0">
+<p class="admonition-title">Keypoints</p>
+<ul class="simple">
+<li><p>Develop a strategy on <strong>how</strong> to optimize.</p></li>
+<li><p>Go shopping.</p>
+<ul>
+<li><p>Look for better ways of reading data or better algorithms</p></li>
+<li><p>Look for tools and libraries to help you alleviate the performance bottlenecks.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../intro/" class="btn btn-neutral float-left" title="Introduction and motivation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../benchmark/" class="btn btn-neutral float-right" title="Benchmark" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, ENCCS and individual contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

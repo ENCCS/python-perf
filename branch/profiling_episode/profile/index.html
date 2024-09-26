@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile &mdash; Python performance workshop  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx_lesson.css?v=0c089442" />
+      <link rel="stylesheet" type="text/css" href="../_static/term_role_formatting.css?v=4194e21c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx_rtd_theme_ext_color_contrast.css?v=8e8ea19f" />
+      <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../_static/overrides.css?v=0572569b" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=187304be"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script src="../_static/minipres.js?v=a0d29692"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script src="../_static/design-tabs.js?v=f930bc37"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Optimize" href="../optimize/" />
+    <link rel="prev" title="Benchmark" href="../benchmark/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../" class="icon icon-home">
+            Python performance workshop
+              <img src="../_static/ENCCS.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Preparation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup/">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The lesson</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro/">Introduction and motivation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../perf-fundamentals/">Performance fundamentals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/">Benchmark</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Profile</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#using-cprofile-to-investigate-performance">Using <code class="docutils literal notranslate"><span class="pre">cProfile</span></code> to investigate performance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-snakeviz-to-visualise-performance-reports">Using SnakeViz to visualise performance reports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-line-profiler-to-inspect-the-expensive-function">Using <code class="docutils literal notranslate"><span class="pre">line_profiler</span></code> to inspect the expensive function</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/">Optimize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallelize/">Parallelize</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick-reference/">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/">Instructor’s guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">Python performance workshop</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Profile</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/content/blob/main/content/profile.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="profile">
+<h1>Profile<a class="headerlink" href="#profile" title="Link to this heading"></a></h1>
+<div class="admonition-objectives objectives admonition" id="objectives-0">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Learn how to profile Python code using <code class="docutils literal notranslate"><span class="pre">cProfile</span></code></p></li>
+<li><p>Learn how to visualise cProfile results using <code class="docutils literal notranslate"><span class="pre">SnakeViz</span></code></p></li>
+<li><p>Examine the most most expensive function call via <code class="docutils literal notranslate"><span class="pre">line_profiler</span></code></p></li>
+</ul>
+</div>
+<div class="admonition-instructor-note instructor-note admonition-no-content admonition" id="instructor-note-0">
+<p class="admonition-title">Instructor note</p>
+</div>
+<section id="using-cprofile-to-investigate-performance">
+<h2>Using <code class="docutils literal notranslate"><span class="pre">cProfile</span></code> to investigate performance<a class="headerlink" href="#using-cprofile-to-investigate-performance" title="Link to this heading"></a></h2>
+<p>While <code class="docutils literal notranslate"><span class="pre">%timeit</span></code> can provide good benchmarking information on single lines or single functions,
+larger codebases have more complex function hierarchies which require more sofisticated tools to
+traverse properly. Python comes with two <a class="reference external" href="https://docs.python.org/3/library/profile.html">built-in tools</a>
+to profile code, which implement the same interface: <code class="docutils literal notranslate"><span class="pre">cProfile</span></code> and <code class="docutils literal notranslate"><span class="pre">profile</span></code>.
+These tools can help to identify performance bottlenecks in the code.</p>
+<p>In this lesson, we will use <code class="docutils literal notranslate"><span class="pre">cProfile</span></code> due to its smaller overhead (<code class="docutils literal notranslate"><span class="pre">profile</span></code>, on the other hand,
+is more extensible). The standard syntax to call it is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>cProfile<span class="w"> </span><span class="o">[</span>-o<span class="w"> </span>&lt;outputFile&gt;<span class="o">]</span><span class="w"> </span>&lt;python_module&gt;
+</pre></div>
+</div>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">cProfile</span></code> writes the results to <code class="docutils literal notranslate"><span class="pre">stdout</span></code>, but the optional <code class="docutils literal notranslate"><span class="pre">-o</span></code> flag redirects
+the output to file instead. A report can be generated using the <code class="docutils literal notranslate"><span class="pre">pstats</span></code> command.</p>
+<div class="admonition-type-along type-along important admonition" id="type-along-0">
+<p class="admonition-title">Type-Along</p>
+<p>Let’s profile the <code class="docutils literal notranslate"><span class="pre">wordcount</span></code> script and write the results to a file.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="env" data-sync-id="ipy" for="sd-tab-item-0">
+IPython / Jupyter</label><div class="sd-tab-content docutils">
+<p>The <code class="docutils literal notranslate"><span class="pre">%run</span></code> magic supports profiling out-of-the-box using the <code class="docutils literal notranslate"><span class="pre">-p</span></code> flag. The script can be run as:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="o">%</span><span class="k">run</span> -p -D wordcount.prof source/wordcount.py data/concat.txt processed_data/concat.dat
+ 
+<span class="o">***</span> <span class="n">Profile</span> <span class="n">stats</span> <span class="n">marshalled</span> <span class="n">to</span> <span class="n">file</span> <span class="s1">&#39;wordcount.prof&#39;</span><span class="o">.</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="env" data-sync-id="sh" for="sd-tab-item-1">
+Unix Shell</label><div class="sd-tab-content docutils">
+<p>We can call <code class="docutils literal notranslate"><span class="pre">cProfile</span></code> as:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>cProfile<span class="w"> </span>-o<span class="w"> </span>wordcount.prof<span class="w"> </span>source/wordcount.py<span class="w"> </span>data/concat.txt<span class="w"> </span>processed_data/concat.dat
+</pre></div>
+</div>
+<p>We can then generate a report using the <code class="docutils literal notranslate"><span class="pre">pstats</span></code> command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pstats<span class="w"> </span>wordcount.prof
+<span class="c1"># Welcome to the profile statistics browser.</span>
+<span class="c1"># wordcount.prof% sort tottime</span>
+<span class="c1"># wordcount.prof% stats</span>
+<span class="c1"># Wed Sep 25 11:52:27 2024    wordcount.prof</span>
+
+<span class="c1">#          53473208 function calls in 8.410 seconds</span>
+
+<span class="c1">#    Ordered by: internal time</span>
+
+<span class="c1">#    ncalls  tottime  percall  cumtime  percall filename:lineno(function)</span>
+<span class="c1">#   1233410    4.151    0.000    7.204    0.000 source/wordcount.py:41(update_word_counts)</span>
+<span class="c1">#  32068660    1.799    0.000    1.799    0.000 {method &#39;replace&#39; of &#39;str&#39; objects}</span>
+<span class="c1">#   7747363    0.570    0.000    0.570    0.000 {method &#39;lower&#39; of &#39;str&#39; objects}</span>
+<span class="c1">#   7747363    0.428    0.000    0.428    0.000 {method &#39;strip&#39; of &#39;str&#39; objects}</span>
+<span class="c1">#   1530212    0.271    0.000    0.271    0.000 source/wordcount.py:23(&lt;genexpr&gt;)</span>
+<span class="c1">#   1233411    0.256    0.000    0.256    0.000 {method &#39;split&#39; of &#39;str&#39; objects}</span>
+<span class="c1">#         1    0.184    0.184    7.388    7.388 source/wordcount.py:59(calculate_word_counts)</span>
+<span class="c1">#    382553    0.133    0.000    0.404    0.000 {method &#39;join&#39; of &#39;str&#39; objects}</span>
+<span class="c1">#         1    0.126    0.126    0.580    0.580 source/wordcount.py:16(save_word_counts)</span>
+<span class="c1"># ...</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="admonition-discussion discussion important admonition" id="discussion-0">
+<p class="admonition-title">Discussion</p>
+<p>Profiling introduces a non-negligible overhead on the code being executed. Thus, the absolute values
+for time being spent in each function should be taken with a grain of salt. The real objective lies in understanding
+the <em>relative</em> amount of time spent in each function call.</p>
+</div>
+</section>
+<section id="using-snakeviz-to-visualise-performance-reports">
+<h2>Using SnakeViz to visualise performance reports<a class="headerlink" href="#using-snakeviz-to-visualise-performance-reports" title="Link to this heading"></a></h2>
+<p><a class="reference external" href="https://jiffyclub.github.io/snakeviz/">SnakeViz</a> is a browser-based visualiser of
+performance reports generated by <code class="docutils literal notranslate"><span class="pre">cProfile</span></code>. It is already included among the
+dependecies installed in this virtual/Conda environment.</p>
+<div class="admonition-type-along type-along important admonition" id="type-along-1">
+<p class="admonition-title">Type-Along</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="ipy" for="sd-tab-item-2">
+IPython / Jupyter</label><div class="sd-tab-content docutils">
+<p>SnakeViz has a IPython magic to profile and open a browser directly. To use it, we just
+need to load the relevant extension and run it:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="o">%</span><span class="k">load_ext</span> snakeviz
+<span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="o">%</span><span class="k">snakeviz</span> wordcount.word_count(&quot;data/concat.txt&quot;, &quot;processed_data/concat.dat&quot;, 1)
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This will run only if the source IPython instance has access to a local web browser.
+This also means that, e.g., if you are on Windows and following the tutorial in WSL,
+this will <code class="docutils literal notranslate"><span class="pre">not</span></code> work.</p>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="ipy" for="sd-tab-item-3">
+Unix Shell</label><div class="sd-tab-content docutils">
+<p>We can run SnakeViz as:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>snakeviz<span class="w"> </span>wordcount.prof<span class="w"> </span>--server
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>The output will contain a clickable link containing the visualisation.</p>
+<p><img alt="SnakeViz output" src="../_images/snakeviz.png" /></p>
+<p>Based on the output, we can clearly see that the <code class="docutils literal notranslate"><span class="pre">update_word_counts()</span></code> function
+is where most of the runtime of the script is spent.</p>
+</section>
+<section id="using-line-profiler-to-inspect-the-expensive-function">
+<h2>Using <code class="docutils literal notranslate"><span class="pre">line_profiler</span></code> to inspect the expensive function<a class="headerlink" href="#using-line-profiler-to-inspect-the-expensive-function" title="Link to this heading"></a></h2>
+<p>Once the main performance-intensive function is identified, we can further examine it
+to find bottlenecks. This can be done using the <code class="docutils literal notranslate"><span class="pre">line_profiler</span></code> tool, which returns a line-by-line
+breakdown of where time is spent.</p>
+<div class="admonition-type-along type-along important admonition" id="type-along-2">
+<p class="admonition-title">Type-Along</p>
+<p>Let’s profile the <code class="docutils literal notranslate"><span class="pre">wordcount</span></code> script and write the results to a file.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-4" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" data-sync-group="env" data-sync-id="ipy" for="sd-tab-item-4">
+IPython / Jupyter</label><div class="sd-tab-content docutils">
+<p>The <code class="docutils literal notranslate"><span class="pre">line_profiler</span></code> package provides a magic to be used in IPython. First, the
+magic needs to be loaded:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="o">%</span><span class="k">load_ext</span> line_profiler
+</pre></div>
+</div>
+<p>The script can be run with the <code class="docutils literal notranslate"><span class="pre">%lprun</span></code> magic, whose syntax is very close to the <code class="docutils literal notranslate"><span class="pre">%run</span></code>
+introduced above. Notice that we have to explicitly mention which functions we want to step through
+line by line:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="o">%</span><span class="k">lprun</span> -f wordcount.update_word_counts wordcount.word_count(&quot;data/concat.txt&quot;, &quot;processed_data/concat.dat&quot;, 1)
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" data-sync-group="env" data-sync-id="sh" for="sd-tab-item-5">
+Unix Shell</label><div class="sd-tab-content docutils">
+<p>To use <code class="docutils literal notranslate"><span class="pre">line_profiler</span></code> from the command line, the functions to be profiled need to be explicitly marked.
+For this reason, we need to import the relevant decorator at the beginning of the <code class="docutils literal notranslate"><span class="pre">wordcount.py</span></code> script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">line_profiler</span> <span class="kn">import</span> <span class="n">profile</span>
+</pre></div>
+</div>
+<p>We can now mark the <code class="docutils literal notranslate"><span class="pre">update_word_counts</span></code> function with the <code class="docutils literal notranslate"><span class="pre">&#64;profile</span></code> decorator:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@profile</span>
+<span class="k">def</span> <span class="nf">update_word_counts</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>Profiling is performed with a script called <code class="docutils literal notranslate"><span class="pre">kernprof</span></code>. Its usage is the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">kernprof -lvr source/wordcount.py data/concat.txt processed_data/concat.dat</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">-l</span></code> flag ensures that the function is profiled step-by-step, the <code class="docutils literal notranslate"><span class="pre">-v</span></code> flag
+shows the result on stdout and the <code class="docutils literal notranslate"><span class="pre">-r</span></code> flag is used to have rich format on output.</p>
+</div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Wrote profile results to wordcount.py.lprof</span>
+<span class="go">Timer unit: 1e-06 s</span>
+
+<span class="go">Total time: 12.2802 s</span>
+<span class="go">File: source/wordcount.py</span>
+<span class="go">Function: update_word_counts at line 40</span>
+
+<span class="go">Line #      Hits         Time  Per Hit   % Time  Line Contents</span>
+<span class="go">==============================================================</span>
+<span class="go">    40                                           @profile</span>
+<span class="go">    41                                           def update_word_counts(line, counts):</span>
+<span class="go">    42                                               &quot;&quot;&quot;</span>
+<span class="go">    43                                               Given a string, parse the string and update a dictionary of word</span>
+<span class="go">    44                                               counts (mapping words to counts of their frequencies). DELIMITERS are</span>
+<span class="go">    45                                               removed before the string is parsed. The function is case-insensitive</span>
+<span class="go">    46                                               and words in the dictionary are in lower-case.</span>
+<span class="go">    47                                               &quot;&quot;&quot;</span>
+<span class="go">    48  33302070    2574252.9      0.1     21.0      for purge in DELIMITERS:</span>
+<span class="go">    49  32068660    4405499.9      0.1     35.9          line = line.replace(purge, &quot; &quot;)</span>
+<span class="go">    50   1233410     392268.8      0.3      3.2      words = line.split()</span>
+<span class="go">    51   8980773     819407.4      0.1      6.7      for word in words:</span>
+<span class="go">    52   7747363    1457841.0      0.2     11.9          word = word.lower().strip()</span>
+<span class="go">    53   7747363    1355462.5      0.2     11.0          if word in counts:</span>
+<span class="go">    54   7364810    1211000.7      0.2      9.9              counts[word] += 1</span>
+<span class="go">    55                                                   else:</span>
+<span class="go">    56    382553      64505.7      0.2      0.5              counts[word] = 1</span>
+</pre></div>
+</div>
+<p>Based on the output, we can conclude that most of the time is spent replacing delimiters.</p>
+</div>
+<div class="admonition-keypoints keypoints admonition" id="keypoints-0">
+<p class="admonition-title">Keypoints</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">cProfile</span></code> module can provide information on how costly each function call is.</p></li>
+<li><p>Profile reports can be inspected using the <code class="docutils literal notranslate"><span class="pre">pstats</span></code> tool in tabular form or with SnakeViz
+for a graphical visualisation</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">line_profiler</span></code> tool can be used to inspect line-by-line performance overhead.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../benchmark/" class="btn btn-neutral float-left" title="Benchmark" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../optimize/" class="btn btn-neutral float-right" title="Optimize" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, ENCCS and individual contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

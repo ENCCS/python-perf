@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python performance workshop documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx_lesson.css" />
+      <link rel="stylesheet" type="text/css" href="_static/term_role_formatting.css" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx_rtd_theme_ext_color_contrast.css" />
+      <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css" />
+      <link rel="stylesheet" type="text/css" href="_static/overrides.css" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script src="_static/minipres.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script src="_static/design-tabs.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script src="https://unpkg.com/mermaid@10.2.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            Python performance workshop
+              <img src="_static/ENCCS.jpg" class="logo" alt="Logo"/>
+          </a>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Preparation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="#document-setup">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The lesson</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="#document-intro">Introduction and motivation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#document-perf-fundamentals">Performance fundamentals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#document-benchmark">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#document-profile">Profile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#document-optimize">Optimize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#document-parallelize">Parallelize</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="#document-quick-reference">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#document-guide">Instructor’s guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Python performance workshop</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Python performance workshop  documentation</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/content/blob/main/content/index" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="python-performance-workshop">
+<h1>Python performance workshop<a class="headerlink" href="#python-performance-workshop" title="Link to this heading"></a></h1>
+<p>Intro</p>
+<div class="admonition-prerequisites prerequisites admonition" id="prerequisites-0">
+<p class="admonition-title">Prerequisites</p>
+<ul class="simple">
+<li><p>Python programming basics (functions, <code class="docutils literal notranslate"><span class="pre">for</span></code> loops, <code class="docutils literal notranslate"><span class="pre">if</span></code>-<code class="docutils literal notranslate"><span class="pre">else</span></code> statements) and data structures (<code class="docutils literal notranslate"><span class="pre">list</span></code>, <code class="docutils literal notranslate"><span class="pre">set</span></code>, <code class="docutils literal notranslate"><span class="pre">dict</span></code>, <code class="docutils literal notranslate"><span class="pre">tuple</span></code>)</p></li>
+<li><p>Familiarity with well-known numeric libraries (for example, Numpy)</p></li>
+</ul>
+</div>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>10 min</p></td>
+<td><p><a class="reference internal" href="#document-setup"><span class="doc">Installation</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>10 min</p></td>
+<td><p><a class="reference internal" href="#document-intro"><span class="doc">Introduction and motivation</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>10 min</p></td>
+<td><p><a class="reference internal" href="#document-perf-fundamentals"><span class="doc">Performance fundamentals</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>xx min</p></td>
+<td><p><a class="reference internal" href="#document-benchmark"><span class="doc">Benchmark</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>xx min</p></td>
+<td><p><a class="reference internal" href="#document-profile"><span class="doc">Profile</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>xx min</p></td>
+<td><p><a class="reference internal" href="#document-optimize"><span class="doc">Optimize</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>xx min</p></td>
+<td><p><a class="reference internal" href="#document-parallelize"><span class="doc">Parallelize</span></a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="toctree-wrapper compound">
+<span id="document-setup"></span><section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>This page contains instructions for installing the required dependencies
+on a local computer.</p>
+<section id="local-installation">
+<h3>Local installation<a class="headerlink" href="#local-installation" title="Link to this heading"></a></h3>
+<p>If you already have a preferred way to manage Python versions and
+libraries, you can stick to that<a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. If not, we recommend that you install
+Python3 and all libraries using
+<a class="reference external" href="https://conda-forge.org/download/">Miniforge</a>, a free
+minimal installer for the package, dependency and environment manager
+<a class="reference external" href="https://docs.conda.io/en/latest/index.html">conda</a>.</p>
+<p>Please follow the installation instructions on
+<a class="reference external" href="https://conda-forge.org/download/">https://conda-forge.org/download/</a> to install Miniforge.</p>
+<p>Make sure that both Python and conda are correctly installed:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>--version
+<span class="gp">$ </span><span class="c1"># should give something like Python 3.12.5</span>
+<span class="gp">$ </span>conda<span class="w"> </span>--version
+<span class="gp">$ </span><span class="c1"># should give something like conda 24.7.1</span>
+</pre></div>
+</div>
+<p>With conda (or mamba) installed, install the required dependencies by running:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/ENCCS/python-perf/main/content/env/environment.yml
+</pre></div>
+</div>
+<p>This will create a new environment <code class="docutils literal notranslate"><span class="pre">python-perf</span></code> which you need to activate
+by:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>activate<span class="w"> </span>python-perf
+</pre></div>
+</div>
+<p>Finally, open Jupyter-Lab in your browser:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>jupyter-lab
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>If you are not using conda, to install the right Python dependencies, download the <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file from <a class="reference external" href="https://raw.githubusercontent.com/ENCCS/python-perf/main/content/env/requirements.txt">this link</a>. Then <a class="reference external" href="https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#create-and-use-virtual-environments">follow this guide to create a virtual environment and activate it</a>. Finally inside the virtual environment run <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code>.</p>
+</aside>
+</aside>
+</div>
+<div class="toctree-wrapper compound">
+<span id="document-intro"></span><section id="introduction-and-motivation">
+<h2>Introduction and motivation<a class="headerlink" href="#introduction-and-motivation" title="Link to this heading"></a></h2>
+<div class="admonition-objectives objectives admonition" id="objectives-0">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Know what to expect from this course</p></li>
+<li><p>Build a general, programming-language agnostic notion of performance</p></li>
+</ul>
+</div>
+<div class="admonition-instructor-note instructor-note admonition" id="instructor-note-0">
+<p class="admonition-title">Instructor note</p>
+<ul class="simple">
+<li><p>10 min teaching</p></li>
+</ul>
+</div>
+<p>Python and its defacto implementation CPython is now widely used for a
+spectrum of applications. It has now experienced practitioners doing
+web-development, analytics, research and data science. This is possible
+because of the following traits of the Python ecosystem:</p>
+<ul class="simple">
+<li><p>Batteries included</p></li>
+<li><p>High-level programming that abstracts away the technical details</p></li>
+<li><p>Mature well-maintained libraries which form a firm foundation, the scientific Python ecosystem, which includes:</p></li>
+</ul>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Core numeric libraries</label><div class="sd-tab-content docutils">
+<p><a class="reference internal" href="_images/eco_core_num.jpg"><img alt="computation and visualization" class="align-right" src="_images/eco_core_num.jpg" style="height: 200px;" /></a></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.numpy.org/"><strong>Numpy</strong></a>: numerical computing with powerful numerical arrays objects, and routines to manipulate them.</p></li>
+<li><p><a class="reference external" href="https://www.scipy.org/"><strong>Scipy</strong></a>: high-level numerical routines. Optimization, regression, interpolation, etc.</p></li>
+<li><p><a class="reference external" href="https://matplotlib.org/"><strong>Matplotlib</strong></a>: 2-D visualization, “publication-ready” plots.</p></li>
+</ul>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+Advanced IDEs</label><div class="sd-tab-content docutils">
+<p><a class="reference internal" href="_images/eco_jlab_preview.webp"><img alt="JupyterLab" class="align-right" src="_images/eco_jlab_preview.webp" style="height: 300px;" /></a></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://ipython.org/"><strong>IPython</strong></a>: an advanced <strong>Python console</strong></p></li>
+<li><p><a class="reference external" href="https://jupyter.org/"><strong>Jupyter</strong></a>: <strong>notebooks</strong> in the browser</p></li>
+</ul>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+Domain specific libraries</label><div class="sd-tab-content docutils">
+<p><a class="reference internal" href="_images/eco_pandas_seaborn.png"><img alt="Pandas and Seaborn" class="align-right" src="_images/eco_pandas_seaborn.png" style="height: 300px;" /></a></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pandas.org"><strong>pandas</strong></a> for reading, writing and analyzing heterogenous tabular data</p></li>
+<li><p><strong>statsmodels, seaborn</strong> for <a class="reference external" href="https://lectures.scientific-python.org/packages/statistics/index.html#statistics">statistics</a></p></li>
+<li><p><strong>sympy</strong> for <a class="reference external" href="https://lectures.scientific-python.org/packages/sympy.html#sympy">symbolic computing</a></p></li>
+<li><p><strong>scikit-image</strong> for <a class="reference external" href="https://lectures.scientific-python.org/packages/scikit-image/index.html#scikit-image">image processing</a></p></li>
+<li><p><strong>scikit-learn</strong> for <a class="reference external" href="https://lectures.scientific-python.org/packages/scikit-learn/index.html#scikit-learn-chapter">machine learning</a></p></li>
+</ul>
+</div>
+</div>
+<p>and many more…</p>
+<section id="extensions-a-technical-detail-hidden-in-plain-sight">
+<h3>Extensions: a technical detail hidden in plain sight<a class="headerlink" href="#extensions-a-technical-detail-hidden-in-plain-sight" title="Link to this heading"></a></h3>
+<p>A common theme behind the Python standard library and its popular packages is that some parts of the code which are computationally intensive are actually modules or functions which are either:</p>
+<ul class="simple">
+<li><p><strong>interfaced extensions</strong> with an external implementation in C, C++, Fortran, Rust…</p></li>
+<li><p><strong>source-to-source extensions</strong> written in Python or Python-like code, which is compiled ahead-of-time or just-in-time</p></li>
+</ul>
+<p>Extensions can be imported as normal Python functions or modules. There are many tools which help you in creating extensions:</p>
+<figure class="align-default" id="id3">
+<img alt="Python performance landscape" src="_images/python_performance_landscape.png" />
+<figcaption>
+<p><span class="caption-text">Figure: The coloured bubbles represent <strong>programming languages</strong>. An outward arrow represents <strong>exporting</strong> a code into
+an extension using a runtime or a library. An inward arrow represents <strong>importing</strong> an extension (or linking to a code using an API,
+such as Python’s C-API or via a foriegn function interface (FFI). The choices are many!</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<div class="admonition-discussion discussion important admonition" id="discussion-0">
+<p class="admonition-title">Discussion</p>
+<p>What are the advantages and disadvantages of using Python code written using multiple programming languages under the hood, in terms of software development and maintenance?</p>
+</div>
+<div class="admonition-solution solution important dropdown admonition" id="solution-0">
+<p class="admonition-title">Solution</p>
+<p><strong>Pros 👍</strong>: This approach enables us to:</p>
+<ul class="simple">
+<li><p>build high-level, performant applications which tend to be readable</p></li>
+<li><p>focus on the problem at hand, without getting sidetracked with implementation details</p></li>
+<li><p>rapidly prototype the experimental parts of the code</p></li>
+<li><p>interfacing allows re-use of established codes</p></li>
+</ul>
+<p><strong>Cons 👎</strong>: Some known downsides are:</p>
+<ul class="simple">
+<li><p>interfaced codes require knowledge of multiple languages</p></li>
+<li><p>compiled codes are harder to debug and rapidly-prototype</p></li>
+</ul>
+</div>
+<p>Now we have a notion of how extensions work. We could use extensions to address performance issues. However building an extension is quite often the last resort.
+More on that will be discussed in the next episode.</p>
+</section>
+<section id="different-kinds-of-performance-bottlenecks">
+<h3>Different kinds of performance bottlenecks<a class="headerlink" href="#different-kinds-of-performance-bottlenecks" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>I/O bound</strong>: the code idles often and is waiting for a disk or network read/write operation to finish. Such bottlenecks can be often remedied by caching, multi-threading or async-programming.</p></li>
+<li><p><strong>Memory bound</strong>: the data to be processed does not fit in the RAM and the code needs to process data in batches instead. This is often a hardware limitation.</p></li>
+<li><p><strong>CPU bound</strong>: the code consumes a lot of CPU cycles, often seen by monitoring the system showing 100% CPU usage in 1 core for serial applications, or in all cores for parallel applications. <strong>This will be the focus of this workshop</strong>.</p></li>
+</ul>
+</section>
+<section id="gems-of-wisdom">
+<h3>Gems of wisdom<a class="headerlink" href="#gems-of-wisdom" title="Link to this heading"></a></h3>
+<p>Before we dive further into the workshop it is important to remember some idioms, which is true in the case of most real-world applications.</p>
+<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Limitations of performance improvement</div>
+<blockquote>
+<div><p class="sd-card-text">The overall performance improvement gained by optimizing a single part of a system is <strong>limited by the fraction of time that the improved part is actually used</strong>.</p>
+</div></blockquote>
+<p class="sd-card-text">– <em>Amdahl’s law</em><a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> (see this <a class="reference external" href="https://demonstrations.wolfram.com/AmdahlsLaw/">demo</a>)</p>
+</div>
+</div>
+<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Premature optimization is the root of all evil.</div>
+<blockquote>
+<div><p class="sd-card-text">The real problem is that programmers have spent far too much time <strong>worrying about efficiency in the wrong places and at the wrong times</strong>; <em>premature optimization is the root of all evil (or at least most of it) in programming</em>.</p>
+</div></blockquote>
+<blockquote>
+<div><p class="sd-card-text">Programmers waste enormous amounts of time thinking about, or worrying about, the speed of noncritical parts of their programs, and these attempts at efficiency actually have a <strong>strong negative impact when debugging and maintenance are considered</strong>. We should forget about small efficiencies, say about <em>97% of the time: premature optimization is the root of all evil</em>. Yet we should not pass up our opportunities in that critical 3%.</p>
+</div></blockquote>
+<p class="sd-card-text">– <em>Donald Knuth</em> (computer scientist, mathematician and the author of <em>The Art of Computer Programming</em>)</p>
+</div>
+</div>
+<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Measure, don’t guess.</div>
+</div>
+</div>
+<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Pareto principle or the 80/20 rule</div>
+<blockquote>
+<div><p class="sd-card-text">80 percent of the runtime is spent in 20 percent of the source code.</p>
+</div></blockquote>
+<p class="sd-card-text">– <em>Scott Meyers</em> (author of <em>Effective C++ Digital Collection: 140 Ways to Improve Your Programming</em>)</p>
+</div>
+</div>
+<hr class="docutils" />
+<div class="admonition-keypoints keypoints admonition" id="keypoints-0">
+<p class="admonition-title">Keypoints</p>
+<ul class="simple">
+<li><p>Find a balance between <em>runtime efficency</em> and <em>cost of development</em>.</p></li>
+<li><p>Tests can help in maintain correctness before you change the code.</p></li>
+<li><p>CPU-bound or I/O-bound or memory bound?</p></li>
+<li><p>Do not optimize everything.</p></li>
+<li><p>Creating extensions are one way of improving performance</p></li>
+</ul>
+</div>
+</section>
+</section>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">2</a><span class="fn-bracket">]</span></span>
+<p>Although Amdahl’s law is about speedup due to parallelization, we can still
+associate it with speedup of serial programs. This is because the law is
+formulated in terms of execution-time.</p>
+</aside>
+</aside>
+<span id="document-perf-fundamentals"></span><section id="performance-fundamentals">
+<h2>Performance fundamentals<a class="headerlink" href="#performance-fundamentals" title="Link to this heading"></a></h2>
+<div class="admonition-objectives objectives admonition" id="objectives-0">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Learn Python specific performance aspects</p></li>
+</ul>
+</div>
+<div class="admonition-instructor-note instructor-note admonition" id="instructor-note-0">
+<p class="admonition-title">Instructor note</p>
+<ul class="simple">
+<li><p>10 min teaching/type-along</p></li>
+</ul>
+</div>
+<section id="understanding-the-python-interpreter">
+<h3>Understanding the Python interpreter<a class="headerlink" href="#understanding-the-python-interpreter" title="Link to this heading"></a></h3>
+<div class="admonition-performance-bottlenecks-in-python discussion important admonition" id="discussion-0">
+<p class="admonition-title">Performance bottlenecks in Python</p>
+<p>Have you ever written Python scripts that look something like this?</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">read_xyz_from_text_file</span><span class="p">():</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;mydata.dat&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fields</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fields</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="c1"># some analysis with x, y and z</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Compared to C/C++/Fortran, this for-loop will probably be orders of magnitude slower!</p>
+</div>
+<p>This happens because during the execution step CPython mostly interprets instructions. There is some level of optimization involved though. Here is a simplified schematic of how this is invoked:</p>
+<div class="mermaid">
+            flowchart TD
+    a[Source code in .py files] --&gt; tok[Tokenizer]
+    tok --&gt; ast[Abstract Syntax Tree]
+    ast --&gt; c[Byte-code: __pycache__]
+    c --&gt; d[Machine code in Python Virtual Machine]
+    d --&gt; c
+        </div><div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>While doing so, the interpreter</p>
+<ul class="simple">
+<li><p>evaluates a result, expression-by-expression.</p></li>
+<li><p>every intermediate result is packed and unpacked as an instance of <code class="docutils literal notranslate"><span class="pre">object</span></code> (Python) / <code class="docutils literal notranslate"><span class="pre">PyObject</span></code> (CPython API) behind the scenes.</p></li>
+</ul>
+</div>
+<div class="admonition-type-along type-along important admonition" id="type-along-0">
+<p class="admonition-title">Type-Along</p>
+<p>Try out the following code in <a class="reference external" href="https://pythontutor.com/render.html#code=import%20io%0A%0Adef%20rms_from_text_file%28f%29%3A%0A%20%20%20%20%22%22%22Compute%20root-mean-square%20of%20comma-separated%20values.%22%22%22%0A%20%20%20%20rms%20%3D%200%0A%20%20%20%20n_samples%20%3D%200%0A%20%20%20%20%0A%20%20%20%20for%20line%20in%20f.readlines%28%29%3A%0A%20%20%20%20%20%20%20%20fields%20%3D%20line.split%28%22,%22%29%0A%20%20%20%20%20%20%20%20x,%20y,%20z%20%3D%20float%28fields%5B0%5D%29,%20float%28fields%5B1%5D%29,%20float%28fields%5B2%5D%29%0A%20%20%20%20%20%20%20%20%23%20compute%20root-mean-square%20value%0A%20%20%20%20%20%20%20%20rms%20%2B%3D%20%28%28x**2%20%2B%20y**2%20%2B%20z**2%29%20/%203%29%20**%200.5%0A%20%20%20%20%20%20%20%20n_samples%20%2B%3D%201%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20return%20rms%20/%20n_samples%0A%0A%0Afake_file%20%3D%20io.StringIO%28%22%22%22%5C%0A0.27194615,0.85939776,0.76905204%0A0.51586611,0.59174447,0.06501842%0A0.23109192,0.8260391,0.08045166%0A%22%22%22%29%0A%0Aavg_rms%20%3D%20rms_from_text_file%28fake_file%29&amp;amp;cumulative=false&amp;amp;curInstr=0&amp;amp;heapPrimitives=nevernest&amp;amp;mode=display&amp;amp;origin=opt-frontend.js&amp;amp;py=311&amp;amp;rawInputLstJSON=%5B%5D&amp;amp;textReferences=false">Python Tutor</a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">io</span>
+
+<span class="k">def</span> <span class="nf">rms_from_text_file</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute root-mean-square of comma-separated values.&quot;&quot;&quot;</span>
+    <span class="n">rms</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="c1"># compute root-mean-square value</span>
+        <span class="n">rms</span> <span class="o">+=</span> <span class="p">((</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+        <span class="n">n_samples</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+    <span class="k">return</span> <span class="n">rms</span> <span class="o">/</span> <span class="n">n_samples</span>
+
+
+<span class="n">fake_file</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">0.27194615,0.85939776,0.76905204</span>
+<span class="s2">0.51586611,0.59174447,0.06501842</span>
+<span class="s2">0.23109192,0.8260391,0.08045166</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">avg_rms</span> <span class="o">=</span> <span class="n">rms_from_text_file</span><span class="p">(</span><span class="n">fake_file</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Be aware that this is a simplified version of the execution. Since it does not go into
+the expression level. However you can get an idea of the intermediate objects being
+returned and the way the interpreter parses the code.</p>
+</div>
+<div class="admonition-discussion discussion important admonition" id="discussion-1">
+<p class="admonition-title">Discussion</p>
+<p>In the previous episode, we described I/O, Memory and CPU bound bottlenecks.
+For the above use case and <strong>algorithm</strong>, and <strong>not necessarily the same code</strong>,
+what kind of performance issue arise,</p>
+<ol class="arabic simple">
+<li><p>when the file becomes long, with several millions of lines?</p></li>
+<li><p>when the file is stored in network filesystem which is slow to respond?</p></li>
+<li><p>when instead of 3 fields, <code class="docutils literal notranslate"><span class="pre">x,</span> <span class="pre">y,</span> <span class="pre">z</span></code>, you have to read 10 million fields for every line of the text?</p></li>
+</ol>
+</div>
+<div class="admonition-solution solution important dropdown admonition" id="solution-0">
+<p class="admonition-title">Solution</p>
+<p>We can only guess at this point, but we can expect the above code to be</p>
+<ol class="arabic simple">
+<li><p><strong>CPU bound</strong>: the <code class="docutils literal notranslate"><span class="pre">for</span></code> loop becomes a <em>hotspot</em> and vanilla CPython
+without JIT does not optimize this.</p></li>
+<li><p><strong>I/O bound</strong>: if more time is spent in awaiting output of <code class="docutils literal notranslate"><span class="pre">f.readlines()</span></code> method</p></li>
+<li><p><strong>Memory bound</strong>: if a line of data does not fit in the memory the code needs to
+handle it in batches. The program will need to be rewritten with nested for-loop
+which depends on the memory availability.</p></li>
+</ol>
+<p>We have to keep in mind that performance depends a lot on the kind of</p>
+<ul class="simple">
+<li><p>input data</p></li>
+<li><p>algorithm</p></li>
+</ul>
+<p>Using a better container for the input data or a better algorithm with less
+<a class="reference external" href="https://en.wikipedia.org/wiki/Computational_complexity">computation complexity</a>
+can often outperform technical solutions.</p>
+</div>
+</section>
+<section id="structured-approach-towards-optimization">
+<h3>Structured approach towards optimization<a class="headerlink" href="#structured-approach-towards-optimization" title="Link to this heading"></a></h3>
+<p>The first priority is to look for an more efficient:</p>
+<ol class="arabic simple">
+<li><p>Data container, data structure, database etc.</p></li>
+<li><p>Algorithm</p></li>
+</ol>
+<p>If the above are not an option, then we move on to performance optimization.</p>
+<ol class="arabic simple">
+<li><p>First we evaluate the overall performance by <strong>benchmarking</strong>.</p></li>
+<li><p>Then we measure the performance of at either function/method-level or line-level by <strong>profiling</strong>.</p></li>
+<li><p>Finally we generate optimized code.</p></li>
+</ol>
+<p>Any Python code can be replaced using optimized instructions. This is done by
+ahead of time (AOT) / just-in-time (JIT) compilation. The question which
+remains to be answered is at which level? One can optimize:</p>
+<p><a class="reference internal" href="_images/noun_programming.svg"><img alt="program clip-art" src="_images/noun_programming.svg" style="width: 30px;" /></a> : whole programs (Nuitka, Shed Skin)</p>
+<p><a class="reference internal" href="_images/noun_terminal.svg"><img alt="interpreter: terminal console clip-art" src="_images/noun_terminal.svg" style="width: 30px;" /></a> : interpreter compiling slowest loops (PyPy)</p>
+<p><a class="reference internal" href="_images/noun_module.svg"><img alt="module: blocks clip-art" src="_images/noun_module.svg" style="width: 30px;" /></a> : <strong>modules (<code class="docutils literal notranslate"><span class="pre">cython</span></code>, <code class="docutils literal notranslate"><span class="pre">pythran</span></code>)</strong></p>
+<p><a class="reference internal" href="_images/noun_function.svg"><img alt="function clip-art" src="_images/noun_function.svg" style="width: 30px;" /></a> : <strong>user-defined functions / methods (<code class="docutils literal notranslate"><span class="pre">numba</span></code>, <code class="docutils literal notranslate"><span class="pre">transonic</span></code>)</strong></p>
+<p><a class="reference internal" href="_images/noun_equals.svg"><img alt="equality clip-art" src="_images/noun_equals.svg" style="width: 30px;" /></a> : <strong>expressions</strong> (<code class="docutils literal notranslate"><span class="pre">numexpr</span></code>)</p>
+<p><a class="reference internal" href="_images/noun_function.svg"><img alt="function clip-art" src="_images/noun_function.svg" style="width: 30px;" /></a> : call compiled functions (<code class="docutils literal notranslate"><span class="pre">numpy</span></code> / Python)</p>
+<p>We will take a look at some of these approaches in the coming episodes.</p>
+<div class="admonition-keypoints keypoints admonition" id="keypoints-0">
+<p class="admonition-title">Keypoints</p>
+<ul class="simple">
+<li><p>Develop a strategy on <strong>how</strong> to optimize.</p></li>
+<li><p>Go shopping.</p>
+<ul>
+<li><p>Look for better ways of reading data or better algorithms</p></li>
+<li><p>Look for tools and libraries to help you alleviate the performance bottlenecks.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+<span id="document-benchmark"></span><section id="benchmark">
+<h2>Benchmark<a class="headerlink" href="#benchmark" title="Link to this heading"></a></h2>
+<div class="admonition-objectives objectives admonition" id="objectives-0">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Introduce the</p></li>
+<li><p>Preparing the system for benchmarking</p></li>
+<li><p>Running benchmarks</p></li>
+</ul>
+</div>
+<div class="admonition-instructor-note instructor-note admonition-no-content admonition" id="instructor-note-0">
+<p class="admonition-title">Instructor note</p>
+</div>
+<section id="the-problem-word-count-hpda">
+<h3>The problem: word-count-hpda<a class="headerlink" href="#the-problem-word-count-hpda" title="Link to this heading"></a></h3>
+<p><img alt="word-count schematic" src="_images/arrows.png" /></p>
+<p>In this episode, we will use an
+<a class="reference external" href="https://github.com/ENCCS/word-count-hpda">example project</a>
+which finds most frequent words in books and plots the result
+from those statistics. The project contains a
+script <code class="docutils literal notranslate"><span class="pre">source/wordcount.py</span></code> which is executed to analyze word
+frequencies from some books. The books are saved in plain-text format
+in the <a class="reference external" href="https://github.com/ENCCS/word-count-hpda/tree/main/data">data</a> directory.</p>
+<p>For example to run this code for one book, <em>pg99.txt</em></p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ENCCS/word-count-hpda.git
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>word-count-hpda<span class="w"> </span>
+<span class="gp">$ </span>python<span class="w"> </span>source/wordcount.py<span class="w"> </span>data/pg99.txt<span class="w"> </span>processed_data/pg99.dat
+<span class="gp">$ </span>python<span class="w"> </span>source/plotcount.py<span class="w"> </span>processed_data/pg99.dat<span class="w"> </span>results/pg99.png
+</pre></div>
+</div>
+</section>
+<section id="preparation-use-pyperf-to-tune-your-system">
+<h3>Preparation: Use <code class="docutils literal notranslate"><span class="pre">pyperf</span></code> to tune your system<a class="headerlink" href="#preparation-use-pyperf-to-tune-your-system" title="Link to this heading"></a></h3>
+<p>Most personal laptops would be running in a power-saver / balanced power management mode.
+This would include that the system has a scaling governor which can change
+the CPU clock frequency on demand, among other things. This can cause <strong>jitter</strong>
+which means that benchmarks are not reproducible enough and are less reliable.</p>
+<p>In order to improve reliability of your benchmarks consider running the following</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It requires admin / root privileges.</p>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>python<span class="w"> </span>-m<span class="w"> </span>pyperf<span class="w"> </span>system<span class="w"> </span>tune
+</pre></div>
+</div>
+<p>When you are done with the lesson, you can run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pyperf</span> <span class="pre">system</span> <span class="pre">reset</span></code> or
+restart the computer to go back to your default CPU settings.</p>
+<section id="see-also">
+<h4>See also<a class="headerlink" href="#see-also" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pyperf.readthedocs.io/en/latest/system.html#operations-and-checks-of-the-pyperf-system-command">https://pyperf.readthedocs.io/en/latest/system.html#operations-and-checks-of-the-pyperf-system-command</a></p></li>
+<li><p><a class="reference external" href="https://pyperf.readthedocs.io/en/latest/run_benchmark.html#how-to-get-reproducible-benchmark-results">https://pyperf.readthedocs.io/en/latest/run_benchmark.html#how-to-get-reproducible-benchmark-results</a></p></li>
+<li><p><a class="reference external" href="https://pyperformance.readthedocs.io/usage.html#how-to-get-stable-benchmarks">https://pyperformance.readthedocs.io/usage.html#how-to-get-stable-benchmarks</a></p></li>
+</ul>
+</section>
+</section>
+<section id="benchmark-using-time">
+<h3>Benchmark using <code class="docutils literal notranslate"><span class="pre">time</span></code><a class="headerlink" href="#benchmark-using-time" title="Link to this heading"></a></h3>
+<p>In order to observe the cost of computation, we need to choose a
+sufficiently large input data file and time the computation. We can
+do that by concatenating all the books into a single input file
+approximately 45 MB in size.</p>
+<div class="admonition-type-along type-along important admonition" id="type-along-0">
+<p class="admonition-title">Type-Along</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="env" data-sync-id="ipy" for="sd-tab-item-3">
+IPython / Jupyter</label><div class="sd-tab-content docutils">
+<p>Copy the following script.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">fileinput</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">files</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;pg*.txt&quot;</span><span class="p">)</span>
+<span class="n">file_concat</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;concat.txt&quot;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="p">(</span>
+    <span class="n">fileinput</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">files</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_in</span><span class="p">,</span>
+    <span class="n">file_concat</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_out</span>
+<span class="p">):</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file_in</span><span class="p">:</span>
+        <span class="n">file_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Open an IPython console or Jupyterlab, with <code class="docutils literal notranslate"><span class="pre">word-count-hpda</span></code> as the
+current working directory (you can also use <code class="docutils literal notranslate"><span class="pre">%cd</span></code> inside IPython
+to change the directory).</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">paste</span>
+
+<span class="o">%</span><span class="k">ls</span> -lh data/concat.txt
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">wordcount</span>
+
+<span class="o">%</span><span class="k">time</span> wordcount.word_count(&quot;data/concat.txt&quot;, &quot;processed_data/concat.dat&quot;, 1)
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="env" data-sync-id="sh" for="sd-tab-item-4">
+Unix Shell</label><div class="sd-tab-content docutils">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cat<span class="w"> </span>data/pg*.txt<span class="w"> </span>&gt;<span class="w"> </span>data/concat.txt
+<span class="gp">$ </span>ls<span class="w"> </span>-lh<span class="w"> </span>data/concat.txt
+<span class="gp">$ </span><span class="nb">time</span><span class="w"> </span>python<span class="w"> </span>source/wordcount.py<span class="w"> </span>data/concat.txt<span class="w"> </span>processed_data/concat.dat
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="admonition-solution solution important dropdown admonition" id="solution-0">
+<p class="admonition-title">Solution</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" data-sync-group="env" data-sync-id="ipy" for="sd-tab-item-5">
+IPython / Jupyter</label><div class="sd-tab-content docutils">
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="o">%</span><span class="k">paste</span>
+<span class="kn">import</span> <span class="nn">fileinput</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">files</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;pg*.txt&quot;</span><span class="p">)</span>
+<span class="n">file_concat</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;concat.txt&quot;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="p">(</span>
+    <span class="n">fileinput</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">files</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_in</span><span class="p">,</span>
+    <span class="n">file_concat</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_out</span>
+<span class="p">):</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file_in</span><span class="p">:</span>
+        <span class="n">file_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+<span class="c1">## -- End pasted text --</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="o">%</span><span class="k">ls</span> -lh data/concat.txt
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">ashwinmo</span> <span class="n">ashwinmo</span> <span class="mi">45</span><span class="n">M</span> <span class="n">sep</span> <span class="mi">24</span> <span class="mi">14</span><span class="p">:</span><span class="mi">54</span> <span class="n">data</span><span class="o">/</span><span class="n">concat</span><span class="o">.</span><span class="n">txt</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">sys</span>
+   <span class="o">...</span><span class="p">:</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">wordcount</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="o">%</span><span class="k">time</span> wordcount.word_count(&quot;data/concat.txt&quot;, &quot;processed_data/concat.dat&quot;, 1)
+<span class="n">CPU</span> <span class="n">times</span><span class="p">:</span> <span class="n">user</span> <span class="mf">2.64</span> <span class="n">s</span><span class="p">,</span> <span class="n">sys</span><span class="p">:</span> <span class="mi">146</span> <span class="n">ms</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="mf">2.79</span> <span class="n">s</span>
+<span class="n">Wall</span> <span class="n">time</span><span class="p">:</span> <span class="mf">2.8</span> <span class="n">s</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-6" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" data-sync-group="env" data-sync-id="sh" for="sd-tab-item-6">
+Unix Shell</label><div class="sd-tab-content docutils">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cat<span class="w"> </span>data/pg*.txt<span class="w"> </span>&gt;<span class="w"> </span>data/concat.txt
+<span class="gp">$ </span>ls<span class="w"> </span>-lh<span class="w"> </span>data/concat.txt
+<span class="go">-rw-rw-r-- 1 ashwinmo ashwinmo 46M sep 24 14:58 data/concat.txt</span>
+<span class="gp">$ </span><span class="nb">time</span><span class="w"> </span>python<span class="w"> </span>source/wordcount.py<span class="w"> </span>data/concat.txt<span class="w"> </span>processed_data/concat.dat
+
+<span class="go">real    0m2,826s</span>
+<span class="go">user    0m2,645s</span>
+<span class="go">sys     0m0,180s</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>What are the implications of this small benchmark test?</p>
+<p>It takes a few seconds to analyze a 45 MB file. Imagine that you are
+working in a library and you are tasked with running this on several
+terabytes of data.</p>
+<ul class="simple">
+<li><p>10 TB = 10 000 000 MB</p></li>
+<li><p>Current processing speed = 45 MB / 2.8 s ~ 16 MB/s</p></li>
+<li><p>Estimated time = 10 000 000 / 16 = 625 000 s = 7.2 days</p></li>
+</ul>
+<p>Then the same script would take days to complete!</p>
+</div>
+</section>
+<section id="benchmark-using-timeit">
+<h3>Benchmark using <code class="docutils literal notranslate"><span class="pre">timeit</span></code><a class="headerlink" href="#benchmark-using-timeit" title="Link to this heading"></a></h3>
+<p>If you run the <code class="docutils literal notranslate"><span class="pre">%time</span></code> magic / <code class="docutils literal notranslate"><span class="pre">time</span></code> command again, you will notice
+that the results vary a bit. To get a <strong>reliable</strong> answer we should repeat
+the benchmark several times using <a class="reference external" href="https://docs.python.org/library/timeit.html"><code class="docutils literal notranslate"><span class="pre">timeit</span></code></a>. <a class="reference external" href="https://docs.python.org/library/timeit.html"><code class="docutils literal notranslate"><span class="pre">timeit</span></code></a> is part of
+the Python standard library and it can be imported in a Python script
+or used via a command-line interface.</p>
+<p>If you’re using IPython / Jupyter notebook, the best choice will be
+to use the <code class="docutils literal notranslate"><span class="pre">%timeit</span></code> magic.</p>
+<p>As an example, here we benchmark the Numpy array:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="o">%</span><span class="k">timeit</span> a ** 2
+<span class="c1"># 1.4 µs ± 25.1 ns per loop</span>
+</pre></div>
+</div>
+<p>We could do the same for the <code class="docutils literal notranslate"><span class="pre">word_count</span></code> function.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-7" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" data-sync-group="env" data-sync-id="ipy" for="sd-tab-item-7">
+IPython / Jupyter</label><div class="sd-tab-content docutils">
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="o">%</span><span class="k">timeit</span> wordcount.word_count(&quot;data/concat.txt&quot;, &quot;processed_data/concat.dat&quot;, 1)
+<span class="c1"># 2.81 s ± 12.2 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-8" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" data-sync-group="env" data-sync-id="sh" for="sd-tab-item-8">
+Unix Shell</label><div class="sd-tab-content docutils">
+<p>We could use <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">timeit</span></code> which is the CLI interface of the standard library module <code class="docutils literal notranslate"><span class="pre">timeit</span></code>,</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="nb">source</span>
+<span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>timeit<span class="w"> </span>--setup<span class="w"> </span><span class="s1">&#39;import wordcount&#39;</span><span class="w"> </span><span class="s1">&#39;wordcount.word_count(&quot;data/concat.txt&quot;, &quot;processed_data/concat.dat&quot;, 1)&#39;</span>
+<span class="go">1 loop, best of 5: 2.75 sec per loop</span>
+</pre></div>
+</div>
+<p>or an even better alternative is using <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pyperf</span> <span class="pre">timeit</span></code></p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="nb">source</span>
+<span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pyperf<span class="w"> </span>timeit<span class="w"> </span>--fast<span class="w"> </span>--setup<span class="w"> </span><span class="s1">&#39;import wordcount&#39;</span><span class="w"> </span><span class="s1">&#39;wordcount.word_count(&quot;data/concat.txt&quot;, &quot;processed_data/concat.dat&quot;, 1)&#39;</span>
+<span class="go">...........</span>
+<span class="go">Mean +- std dev: 2.72 sec +- 0.22 sec</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice that the output reports the <strong>arithmetic mean and standard deviation</strong> of timings. This is a good choice, since it means that <strong>outliers and temporary spikes in results are not automatically removed</strong>, which could be as a result of:</p>
+<ul class="simple">
+<li><p>garbage collection</p></li>
+<li><p>JIT compilation</p></li>
+<li><p>CPU or memory resource limitations</p></li>
+</ul>
+<div class="admonition-keypoints keypoints admonition" id="keypoints-0">
+<p class="admonition-title">Keypoints</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pyperf</span></code> can be used to tune the system</p></li>
+<li><p>We understood the use of <code class="docutils literal notranslate"><span class="pre">time</span></code> and <code class="docutils literal notranslate"><span class="pre">timeit</span></code> to create benchmarks</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code> is faster, since it is executed only once</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">timeit</span></code> is more reliable, since it collects statistics</p></li>
+</ul>
+</div>
+</section>
+</section>
+<span id="document-profile"></span><section id="profile">
+<h2>Profile<a class="headerlink" href="#profile" title="Link to this heading"></a></h2>
+<div class="admonition-objectives objectives admonition-no-content admonition" id="objectives-0">
+<p class="admonition-title">Objectives</p>
+</div>
+<div class="admonition-instructor-note instructor-note admonition-no-content admonition" id="instructor-note-0">
+<p class="admonition-title">Instructor note</p>
+</div>
+</section>
+<span id="document-optimize"></span><section id="optimize">
+<h2>Optimize<a class="headerlink" href="#optimize" title="Link to this heading"></a></h2>
+<div class="admonition-objectives objectives admonition" id="objectives-0">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Optimize the most expensive function from the word-count-hpda project’s <code class="docutils literal notranslate"><span class="pre">wordcount.py</span></code> script.</p></li>
+<li><p>Show how changes to algorithm influences the performance.</p></li>
+<li><p>Introduce a few Python <strong>accelerators</strong>: <code class="docutils literal notranslate"><span class="pre">cython</span></code>, <code class="docutils literal notranslate"><span class="pre">numba</span></code>, <code class="docutils literal notranslate"><span class="pre">pythran</span></code></p></li>
+<li><p>Mention the library <code class="docutils literal notranslate"><span class="pre">transonic</span></code></p></li>
+</ul>
+</div>
+<div class="admonition-instructor-note instructor-note admonition-no-content admonition" id="instructor-note-0">
+<p class="admonition-title">Instructor note</p>
+</div>
+<section id="targeting-the-most-expensive-function">
+<h3>Targeting the most expensive function<a class="headerlink" href="#targeting-the-most-expensive-function" title="Link to this heading"></a></h3>
+<p>In the previous episode by profiling, we found out that <code class="docutils literal notranslate"><span class="pre">update_word_counts</span></code>
+consumes around half of the CPU wall time and is called repeatedly. Here is
+a snippet from profiling output.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+         <span class="mi">53473208</span> <span class="n">function</span> <span class="n">calls</span> <span class="ow">in</span> <span class="mf">8.410</span> <span class="n">seconds</span>
+
+   <span class="n">Ordered</span> <span class="n">by</span><span class="p">:</span> <span class="n">internal</span> <span class="n">time</span>
+
+   <span class="n">ncalls</span>  <span class="n">tottime</span>  <span class="n">percall</span>  <span class="n">cumtime</span>  <span class="n">percall</span> <span class="n">filename</span><span class="p">:</span><span class="n">lineno</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+  <span class="mi">1233410</span>    <span class="mf">4.151</span>    <span class="mf">0.000</span>    <span class="mf">7.204</span>    <span class="mf">0.000</span> <span class="n">source</span><span class="o">/</span><span class="n">wordcount</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">41</span><span class="p">(</span><span class="n">update_word_counts</span><span class="p">)</span>
+  <span class="o">...</span>
+</pre></div>
+</div>
+</section>
+<section id="option-1-changing-the-algorithm">
+<h3>Option 1: changing the algorithm<a class="headerlink" href="#option-1-changing-the-algorithm" title="Link to this heading"></a></h3>
+<p>If we look at the output from the line profiler, we can see that the following two lines
+are the most time-consuming.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">update_word_counts</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a string, parse the string and update a dictionary of word</span>
+<span class="sd">    counts (mapping words to counts of their frequencies). DELIMITERS are</span>
+<span class="sd">    removed before the string is parsed. The function is case-insensitive</span>
+<span class="sd">    and words in the dictionary are in lower-case.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="hll">    <span class="k">for</span> <span class="n">purge</span> <span class="ow">in</span> <span class="n">DELIMITERS</span><span class="p">:</span>
+</span><span class="hll">        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">purge</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+</span>    <span class="n">words</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">counts</span><span class="p">:</span>
+            <span class="n">counts</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">counts</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="admonition-demo demo admonition" id="demo-0">
+<p class="admonition-title">Demo</p>
+<p>Instead of a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop and a <code class="docutils literal notranslate"><span class="pre">str.replace</span></code> we could use a single regular
+expression substitution. This change would look like this</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="c1"># WARNING: there is a bug in the regular expression below!</span>
+<span class="n">DELIMITERS</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\.,;:?$@^&lt;&gt;#%`!\*-=\(\)\[\]\{\}/</span><span class="se">\\</span><span class="s2">]&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">update_word_counts</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a string, parse the string and update a dictionary of word</span>
+<span class="sd">    counts (mapping words to counts of their frequencies). DELIMITERS are</span>
+<span class="sd">    removed before the string is parsed. The function is case-insensitive</span>
+<span class="sd">    and words in the dictionary are in lower-case.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">DELIMITERS</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">counts</span><span class="p">:</span>
+            <span class="n">counts</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">counts</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+</pre></div>
+</div>
+<p>If we run our benchmark with the original code (<code class="docutils literal notranslate"><span class="pre">v0.py</span></code>) and the regex version (<code class="docutils literal notranslate"><span class="pre">v0_1.py</span></code>),
+we get</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">time</span><span class="w"> </span>python<span class="w"> </span>v0.py<span class="w"> </span>data/concat.txt<span class="w"> </span>processed_data/concat.dat
+
+<span class="go">real    0m2,934s</span>
+<span class="go">user    0m2,733s</span>
+<span class="go">sys     0m0,191s</span>
+<span class="gp">$ </span><span class="nb">time</span><span class="w"> </span>python<span class="w"> </span>v0_1.py<span class="w"> </span>data/concat.txt<span class="w"> </span>processed_data/concat.dat
+
+<span class="go">real    0m2,472s</span>
+<span class="go">user    0m2,320s</span>
+<span class="go">sys     0m0,147s</span>
+</pre></div>
+</div>
+<div class="admonition-summary discussion important admonition" id="discussion-0">
+<p class="admonition-title">Summary</p>
+<ul class="simple">
+<li><p>There is a marginal gain of ~0.5 s which amounts to a 16% performance boost.</p></li>
+<li><p>Such changes are less maintainable, but sometime necessary.</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="option-2-using-an-accelerator">
+<h3>Option 2: using an accelerator<a class="headerlink" href="#option-2-using-an-accelerator" title="Link to this heading"></a></h3>
+<section id="refactoring">
+<h4>Refactoring<a class="headerlink" href="#refactoring" title="Link to this heading"></a></h4>
+<p>One complication with optimizing <code class="docutils literal notranslate"><span class="pre">update_word_counts</span></code> is that it is an
+impure function. In other words, it has some side-effects since it:</p>
+<ol class="arabic simple">
+<li><p>accesses a global variable <code class="docutils literal notranslate"><span class="pre">DELIMITERS</span></code>, and</p></li>
+<li><p>mutates an external dictionary <code class="docutils literal notranslate"><span class="pre">counts</span></code> which is a local variable
+inside the function <code class="docutils literal notranslate"><span class="pre">calculate_word_counts</span></code>.</p></li>
+</ol>
+<p>Thus the function <code class="docutils literal notranslate"><span class="pre">update_word_counts</span></code> on its own can be complicated for
+an accelerator to compile since the types of the external variables are unknown.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">update_word_counts</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a string, parse the string and update a dictionary of word</span>
+<span class="sd">    counts (mapping words to counts of their frequencies). DELIMITERS are</span>
+<span class="sd">    removed before the string is parsed. The function is case-insensitive</span>
+<span class="sd">    and words in the dictionary are in lower-case.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="hll">    <span class="k">for</span> <span class="n">purge</span> <span class="ow">in</span> <span class="n">DELIMITERS</span><span class="p">:</span>
+</span>        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">purge</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">counts</span><span class="p">:</span>
+<span class="hll">            <span class="n">counts</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span>        <span class="k">else</span><span class="p">:</span>
+<span class="hll">            <span class="n">counts</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span></pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DELIMITERS</span> <span class="o">=</span> <span class="s2">&quot;. , ; : ? $ @ ^ &lt; &gt; # % ` ! * - = ( ) [ ] { } / </span><span class="se">\&quot;</span><span class="s2"> &#39;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calculate_word_counts</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a list of strings, parse each string and create a dictionary of</span>
+<span class="sd">    word counts (mapping words to counts of their frequencies). DELIMITERS</span>
+<span class="sd">    are removed before the string is parsed. The function is</span>
+<span class="sd">    case-insensitive and words in the dictionary are in lower-case.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="n">update_word_counts</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">counts</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">counts</span>
+</pre></div>
+</div>
+<!-- One possible way to avoid side-effects is to fold all the above
+inside `calculate_word_counts` function.
+
+:::{literalinclude} wordcount/v1_0.py
+:pyobject: calculate_word_counts
+
+::: -->
+</section>
+<section id="accelerators">
+<h4>Accelerators<a class="headerlink" href="#accelerators" title="Link to this heading"></a></h4>
+<p>The following are the few well-known accelerators for Python-Numpy applications.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 16.7%" />
+<col style="width: 16.7%" />
+<col style="width: 8.3%" />
+<col style="width: 8.3%" />
+<col style="width: 16.7%" />
+<col style="width: 33.3%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Accelerator</p></th>
+<th class="head"><p>Compiles</p></th>
+<th class="head"><p>Implemented in</p></th>
+<th class="head"><p>Level</p></th>
+<th class="head"><p>Supports</p></th>
+<th class="head"><p>Advantage</p></th>
+</tr>
+<tr class="row-even"><th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-odd"><td><p>Cython</p></td>
+<td><p>Ahead of time</p></td>
+<td><p>C</p></td>
+<td><p>Module</p></td>
+<td><p>All of Python, Numpy, and C</p></td>
+<td><p>Generic and can also interface C,C++</p></td>
+</tr>
+<tr class="row-even"><td><p>Pythran</p></td>
+<td><p>Ahead of time</p></td>
+<td><p>C++</p></td>
+<td><p>Module</p></td>
+<td><p>Most Python and Numpy features</p></td>
+<td><p>Escapes GIL always, can optimize vectorized code without loops. Can parallelize using OpenMP.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Numba</p></td>
+<td><p>Just in time</p></td>
+<td><p>LLVM</p></td>
+<td><p>Function</p></td>
+<td><p>Most Python and Numpy features</p></td>
+<td><p>Specializes in Numeric codes. Has GPU support, can parallelize</p></td>
+</tr>
+<tr class="row-even"><td><p>Jax</p></td>
+<td><p>Just in time</p></td>
+<td><p>C++</p></td>
+<td><p>Function or Expression</p></td>
+<td><p>Most Python and Numpy features</p></td>
+<td><p>Drop-in alternative for Numpy. Designed for creating ML libraries</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cupy</p></td>
+<td><p>Pre-compiled / JIT</p></td>
+<td><p>Cython / C / C++</p></td>
+<td><p>Function or Expression</p></td>
+<td><p>Numpy and Scipy</p></td>
+<td><p>Drop-in alternative for Numpy. Supports CUDA and ROCm GPUs</p></td>
+</tr>
+</tbody>
+</table>
+<p>In this example we shall demonstrate <strong>Cython</strong> via a package called
+<strong>Transonic</strong> . Transonic lets you switch between Cython, Numba, Pythran and to some extent
+Jax using very similar syntax.</p>
+</section>
+<section id="cython">
+<h4>Cython<a class="headerlink" href="#cython" title="Link to this heading"></a></h4>
+<p>To use Transonic we add decorators to functions we need to optimize.
+There are two decorators</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&#64;transonic.boost</span></code> to create ahead-of-time (AOT) compiled modules and it requires type annotations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&#64;transonic.jit</span></code> to create just-in-time (JIT) compiled modules where type is inferred on runtime</p></li>
+</ul>
+<p>The advantage of using transonic is that you can quickly find out which accelerator works best
+while preserving the Python code for debugging and future development. It also abstracts away the
+syntax variations that Cython, Pythran etc. have.</p>
+<p>The accelerator backend can be chosen in 3 ways:</p>
+<ol class="arabic simple">
+<li><p>Using an environment variable, <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">TRANSONIC_BACKEND=cython</span></code></p></li>
+<li><p>As a parameter to the decorator, <code class="docutils literal notranslate"><span class="pre">&#64;boost(backend=&quot;cython&quot;)</span></code></p></li>
+<li><p>As a parameter to the Transonic CLI, <code class="docutils literal notranslate"><span class="pre">transonic</span> <span class="pre">-b</span> <span class="pre">cython</span> <span class="pre">/path/to/file.py</span></code></p></li>
+</ol>
+<p>We shall use the <code class="docutils literal notranslate"><span class="pre">&#64;boost</span></code> decorator and the environment variable <code class="docutils literal notranslate"><span class="pre">TRANSONIC_BACKEND</span></code> for simplicity</p>
+<div class="admonition-demo demo admonition" id="demo-1">
+<p class="admonition-title">Demo</p>
+<p>We make a few changes to the code:</p>
+<ul class="simple">
+<li><p>Pull <code class="docutils literal notranslate"><span class="pre">DELIMITERS</span></code> inside <code class="docutils literal notranslate"><span class="pre">update_word_counts</span></code> function</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">&#64;boost</span></code> decorators</p></li>
+<li><p>Add type annotations as <a class="reference external" href="https://transonic.readthedocs.io/en/latest/examples/type_hints.html">required by transonic</a>.</p></li>
+</ul>
+<p>Cython has an ability to create <em>inline functions</em> and this is also supported in Transonic. Therefore
+it is OK that <code class="docutils literal notranslate"><span class="pre">update_word_counts</span></code> is impure.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transonic</span> <span class="kn">import</span> <span class="n">boost</span>
+<span class="kn">from</span> <span class="nn">transonic.typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+
+<span class="nd">@boost</span><span class="p">(</span><span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">update_word_counts</span><span class="p">(</span><span class="n">line</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">counts</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a string, parse the string and update a dictionary of word</span>
+<span class="sd">    counts (mapping words to counts of their frequencies). DELIMITERS are</span>
+<span class="sd">    removed before the string is parsed. The function is case-insensitive</span>
+<span class="sd">    and words in the dictionary are in lower-case.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">DELIMITERS</span> <span class="o">=</span> <span class="s2">&quot;. , ; : ? $ @ ^ &lt; &gt; # % ` ! * - = ( ) [ ] { } / </span><span class="se">\&quot;</span><span class="s2"> &#39;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">purge</span> <span class="ow">in</span> <span class="n">DELIMITERS</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">purge</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+    <span class="n">words</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">counts</span><span class="p">:</span>
+            <span class="n">counts</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">counts</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+<span class="nd">@boost</span>
+<span class="k">def</span> <span class="nf">calculate_word_counts</span><span class="p">(</span><span class="n">lines</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a list of strings, parse each string and create a dictionary of</span>
+<span class="sd">    word counts (mapping words to counts of their frequencies). DELIMITERS</span>
+<span class="sd">    are removed before the string is parsed. The function is</span>
+<span class="sd">    case-insensitive and words in the dictionary are in lower-case.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="n">update_word_counts</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">counts</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">counts</span>
+
+
+</pre></div>
+</div>
+<p>Then compile the file <a class="reference download internal" download="" href="_downloads/d2a19feb8735a07fd33947f1e7c1b96f/v1_1.py"><code class="xref download myst docutils literal notranslate"><span class="pre">./wordcount/v1_1.py</span></code></a></p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">export</span><span class="w"> </span><span class="nv">TRANSONIC_BACKEND</span><span class="o">=</span>cython
+<span class="gp">$ </span>transonic<span class="w"> </span>v1_1.py<span class="w"> </span>
+<span class="go">...</span>
+<span class="go">1 files created or updated needs to be cythonized</span>
+<span class="gp">$ </span>ls<span class="w"> </span>-1<span class="w"> </span>__cython__/
+<span class="go">build</span>
+<span class="go">v1_1_ee8b793c43119b782190c854a1eb2ba7.cpython-312-x86_64-linux-gnu.so</span>
+<span class="go">v1_1.pxd</span>
+<span class="go">v1_1.py</span>
+</pre></div>
+</div>
+<p>This would auto-generate a module containing only the functions to be optimized and also compiles it.
+While running the application, Transonic takes care of swapping the Python function with the compiled
+counterpart.</p>
+<p>We are ready to benchmark this.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">time</span><span class="w"> </span>python<span class="w"> </span>v1_1.py<span class="w"> </span>data/concat.txt<span class="w"> </span>processed_data/concat.dat
+
+<span class="go">real    0m4,071s</span>
+<span class="go">user    0m4,373s</span>
+<span class="go">sys     0m0,288s</span>
+</pre></div>
+</div>
+<div class="admonition-summary discussion important admonition" id="discussion-1">
+<p class="admonition-title">Summary</p>
+<p><strong>We see that the compiled function made the script slower</strong>! This could happen because of a few reasons</p>
+<ul class="simple">
+<li><p>Python’s dictionary which uses hash-maps, is quite optimized and it is hard to beat it</p></li>
+<li><p>Cython interacts with Python a lot. This can be analyzed by running <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">__cython__;</span> <span class="pre">cythonize</span> <span class="pre">--annotate</span> <span class="pre">v1_1.py</span></code>
+which generates the following HTML page.</p></li>
+</ul>
+<p><img alt="" src="_images/Cython_v1_1_py.png" /></p>
+<ul class="simple">
+<li><p>Pythran can be used to escape interaction the GIL, but it has a similar performance. Source code:
+<a class="reference download internal" download="" href="_downloads/7f6680e8fba2084ee0e2196cbcb7ea57/v1_2.py"><code class="xref download myst docutils literal notranslate"><span class="pre">./wordcount/v1_2.py</span></code></a> and <a class="reference download internal" download="" href="_downloads/9c60462728384d671ac0af8e5fdec624/v1_2_pythran.py"><code class="xref download myst docutils literal notranslate"><span class="pre">./wordcount/v1_2_pythran.py</span></code></a></p></li>
+<li><p>This is a very poor example, but when it involves contiguous data structures such as lists or arrays of numbers
+these accelerators can give amazing performance boosts. See here for a related example
+<a class="reference external" href="https://enccs.github.io/hpda-python/performance-boosting/">https://enccs.github.io/hpda-python/performance-boosting/</a></p></li>
+</ul>
+</div>
+</div>
+<div class="admonition-keypoints keypoints admonition" id="keypoints-0">
+<p class="admonition-title">Keypoints</p>
+<ul class="simple">
+<li><p>Algortihmic optimizations are often better</p></li>
+<li><p>Accelerators work well with contiguous data structures</p></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+<span id="document-parallelize"></span><section id="parallelize">
+<h2>Parallelize<a class="headerlink" href="#parallelize" title="Link to this heading"></a></h2>
+<div class="admonition-objectives objectives admonition-no-content admonition" id="objectives-0">
+<p class="admonition-title">Objectives</p>
+</div>
+<div class="admonition-instructor-note instructor-note admonition-no-content admonition" id="instructor-note-0">
+<p class="admonition-title">Instructor note</p>
+</div>
+</section>
+</div>
+<div class="toctree-wrapper compound">
+<span id="document-quick-reference"></span><section id="quick-reference">
+<h2>Quick Reference<a class="headerlink" href="#quick-reference" title="Link to this heading"></a></h2>
+</section>
+<span id="document-guide"></span><section id="instructor-s-guide">
+<h2>Instructor’s guide<a class="headerlink" href="#instructor-s-guide" title="Link to this heading"></a></h2>
+<section id="why-we-teach-this-lesson">
+<h3>Why we teach this lesson<a class="headerlink" href="#why-we-teach-this-lesson" title="Link to this heading"></a></h3>
+<p>To deep dive in</p>
+</section>
+<section id="intended-learning-outcomes">
+<h3>Intended learning outcomes<a class="headerlink" href="#intended-learning-outcomes" title="Link to this heading"></a></h3>
+<p>By the end of a workshop covering this lesson, learners should
+be able to:</p>
+<ul class="simple">
+<li><p>gain a better understanding of common performance bottlenecks in Python</p></li>
+<li><p>profile, to measure the speed of distinct parts of the code</p></li>
+<li><p>benchmark, to quantify the overall performance of their code</p></li>
+<li><p>optimize, to alleviate bottlenecks</p></li>
+<li><p>parallelize, to scale up and reduce time to solution</p></li>
+</ul>
+</section>
+<section id="timing">
+<h3>Timing<a class="headerlink" href="#timing" title="Link to this heading"></a></h3>
+</section>
+<section id="preparing-exercises">
+<h3>Preparing exercises<a class="headerlink" href="#preparing-exercises" title="Link to this heading"></a></h3>
+<p>e.g. what to do the day before to set up common repositories.</p>
+<ul class="simple">
+<li><p>Have a working Python installation.</p></li>
+</ul>
+</section>
+<section id="other-practical-aspects">
+<h3>Other practical aspects<a class="headerlink" href="#other-practical-aspects" title="Link to this heading"></a></h3>
+</section>
+<section id="interesting-questions-you-might-get">
+<h3>Interesting questions you might get<a class="headerlink" href="#interesting-questions-you-might-get" title="Link to this heading"></a></h3>
+</section>
+<section id="typical-pitfalls">
+<h3>Typical pitfalls<a class="headerlink" href="#typical-pitfalls" title="Link to this heading"></a></h3>
+</section>
+</section>
+</div>
+<section id="who-is-the-course-for">
+<span id="learner-personas"></span><h2>Who is the course for?<a class="headerlink" href="#who-is-the-course-for" title="Link to this heading"></a></h2>
+<p>Software developers, researchers, students who use Python often and process a lot of data.</p>
+</section>
+<section id="about-the-course">
+<h2>About the course<a class="headerlink" href="#about-the-course" title="Link to this heading"></a></h2>
+</section>
+<section id="see-also">
+<h2>See also<a class="headerlink" href="#see-also" title="Link to this heading"></a></h2>
+</section>
+<section id="credits">
+<h2>Credits<a class="headerlink" href="#credits" title="Link to this heading"></a></h2>
+<p>The lesson is inspired and derived from the following:</p>
+<section id="creative-commons-cc-by-4-0-licensed-material">
+<h3>Creative Commons <a class="reference external" href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> licensed material<a class="headerlink" href="#creative-commons-cc-by-4-0-licensed-material" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>https://github.com/ENCCS/hpda-python</p></li>
+<li><p>https://github.com/ENCCS/word-count-hpda</p></li>
+<li><p>https://github.com/coderefinery/word-count</p></li>
+<li><p>https://coderefinery.github.io/reproducible-research</p></li>
+<li><p>https://hpc-carpentry.github.io/hpc-python/</p></li>
+<li><p>Images and description by <a class="reference external" href="https://lectures.scientific-python.org/preface.html#authors">authors of lectures.scientific-python.org</a>
+and by <a class="reference external" href="https://github.com/carpentries-incubator/deep-learning-intro/blob/main/AUTHORS">authors of deep-learning-intro</a></p></li>
+<li><p>PyCon Sweden 2019 talk on https://talks.fluid.quest/</p></li>
+</ul>
+</section>
+<section id="other-open-source-licenced-material">
+<h3>Other open-source licenced material<a class="headerlink" href="#other-open-source-licenced-material" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Images by <a class="reference external" href="https://jupyter.org">authors of Project Jupyter</a> is licensed under <a class="reference external" href="https://github.com/jupyter/jupyter.github.io/blob/main/LICENSE">BSD 3-Clause “New” or “Revised” License</a></p></li>
+<li><p>Images from <a class="reference external" href="https://thenounproject.com">The Noun Project</a> is licensed under <a class="reference external" href="https://creativecommons.org/licenses/by/3.0/.">CC-BY 3.0</a></p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, ENCCS and individual contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

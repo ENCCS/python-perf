@@ -1,0 +1,8 @@
+# Optimize
+:::{objectives}
+
+:::
+
+:::{instructor-note}
+
+:::

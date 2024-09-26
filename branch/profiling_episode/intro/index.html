@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction and motivation &mdash; Python performance workshop  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx_lesson.css?v=0c089442" />
+      <link rel="stylesheet" type="text/css" href="../_static/term_role_formatting.css?v=4194e21c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx_rtd_theme_ext_color_contrast.css?v=8e8ea19f" />
+      <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../_static/overrides.css?v=0572569b" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=187304be"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script src="../_static/minipres.js?v=a0d29692"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script src="../_static/design-tabs.js?v=f930bc37"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Performance fundamentals" href="../perf-fundamentals/" />
+    <link rel="prev" title="Installation" href="../setup/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../" class="icon icon-home">
+            Python performance workshop
+              <img src="../_static/ENCCS.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Preparation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup/">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The lesson</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction and motivation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#extensions-a-technical-detail-hidden-in-plain-sight">Extensions: a technical detail hidden in plain sight</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#different-kinds-of-performance-bottlenecks">Different kinds of performance bottlenecks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gems-of-wisdom">Gems of wisdom</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../perf-fundamentals/">Performance fundamentals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark/">Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../profile/">Profile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize/">Optimize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallelize/">Parallelize</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quick-reference/">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/">Instructor’s guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">Python performance workshop</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Introduction and motivation</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/content/blob/main/content/intro.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="introduction-and-motivation">
+<h1>Introduction and motivation<a class="headerlink" href="#introduction-and-motivation" title="Link to this heading"></a></h1>
+<div class="admonition-objectives objectives admonition" id="objectives-0">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Know what to expect from this course</p></li>
+<li><p>Build a general, programming-language agnostic notion of performance</p></li>
+</ul>
+</div>
+<div class="admonition-instructor-note instructor-note admonition" id="instructor-note-0">
+<p class="admonition-title">Instructor note</p>
+<ul class="simple">
+<li><p>10 min teaching</p></li>
+</ul>
+</div>
+<p>Python and its defacto implementation CPython is now widely used for a
+spectrum of applications. It has now experienced practitioners doing
+web-development, analytics, research and data science. This is possible
+because of the following traits of the Python ecosystem:</p>
+<ul class="simple">
+<li><p>Batteries included</p></li>
+<li><p>High-level programming that abstracts away the technical details</p></li>
+<li><p>Mature well-maintained libraries which form a firm foundation, the scientific Python ecosystem, which includes:</p></li>
+</ul>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Core numeric libraries</label><div class="sd-tab-content docutils">
+<p><a class="reference internal" href="../_images/eco_core_num.jpg"><img alt="computation and visualization" class="align-right" src="../_images/eco_core_num.jpg" style="height: 200px;" /></a></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.numpy.org/"><strong>Numpy</strong></a>: numerical computing with powerful numerical arrays objects, and routines to manipulate them.</p></li>
+<li><p><a class="reference external" href="https://www.scipy.org/"><strong>Scipy</strong></a>: high-level numerical routines. Optimization, regression, interpolation, etc.</p></li>
+<li><p><a class="reference external" href="https://matplotlib.org/"><strong>Matplotlib</strong></a>: 2-D visualization, “publication-ready” plots.</p></li>
+</ul>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+Advanced IDEs</label><div class="sd-tab-content docutils">
+<p><a class="reference internal" href="../_images/eco_jlab_preview.webp"><img alt="JupyterLab" class="align-right" src="../_images/eco_jlab_preview.webp" style="height: 300px;" /></a></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://ipython.org/"><strong>IPython</strong></a>: an advanced <strong>Python console</strong></p></li>
+<li><p><a class="reference external" href="https://jupyter.org/"><strong>Jupyter</strong></a>: <strong>notebooks</strong> in the browser</p></li>
+</ul>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+Domain specific libraries</label><div class="sd-tab-content docutils">
+<p><a class="reference internal" href="../_images/eco_pandas_seaborn.png"><img alt="Pandas and Seaborn" class="align-right" src="../_images/eco_pandas_seaborn.png" style="height: 300px;" /></a></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pandas.org"><strong>pandas</strong></a> for reading, writing and analyzing heterogenous tabular data</p></li>
+<li><p><strong>statsmodels, seaborn</strong> for <a class="reference external" href="https://lectures.scientific-python.org/packages/statistics/index.html#statistics">statistics</a></p></li>
+<li><p><strong>sympy</strong> for <a class="reference external" href="https://lectures.scientific-python.org/packages/sympy.html#sympy">symbolic computing</a></p></li>
+<li><p><strong>scikit-image</strong> for <a class="reference external" href="https://lectures.scientific-python.org/packages/scikit-image/index.html#scikit-image">image processing</a></p></li>
+<li><p><strong>scikit-learn</strong> for <a class="reference external" href="https://lectures.scientific-python.org/packages/scikit-learn/index.html#scikit-learn-chapter">machine learning</a></p></li>
+</ul>
+</div>
+</div>
+<p>and many more…</p>
+<section id="extensions-a-technical-detail-hidden-in-plain-sight">
+<h2>Extensions: a technical detail hidden in plain sight<a class="headerlink" href="#extensions-a-technical-detail-hidden-in-plain-sight" title="Link to this heading"></a></h2>
+<p>A common theme behind the Python standard library and its popular packages is that some parts of the code which are computationally intensive are actually modules or functions which are either:</p>
+<ul class="simple">
+<li><p><strong>interfaced extensions</strong> with an external implementation in C, C++, Fortran, Rust…</p></li>
+<li><p><strong>source-to-source extensions</strong> written in Python or Python-like code, which is compiled ahead-of-time or just-in-time</p></li>
+</ul>
+<p>Extensions can be imported as normal Python functions or modules. There are many tools which help you in creating extensions:</p>
+<figure class="align-default" id="id3">
+<img alt="Python performance landscape" src="../_images/python_performance_landscape.png" />
+<figcaption>
+<p><span class="caption-text">Figure: The coloured bubbles represent <strong>programming languages</strong>. An outward arrow represents <strong>exporting</strong> a code into
+an extension using a runtime or a library. An inward arrow represents <strong>importing</strong> an extension (or linking to a code using an API,
+such as Python’s C-API or via a foriegn function interface (FFI). The choices are many!</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<div class="admonition-discussion discussion important admonition" id="discussion-0">
+<p class="admonition-title">Discussion</p>
+<p>What are the advantages and disadvantages of using Python code written using multiple programming languages under the hood, in terms of software development and maintenance?</p>
+</div>
+<div class="admonition-solution solution important dropdown admonition" id="solution-0">
+<p class="admonition-title">Solution</p>
+<p><strong>Pros 👍</strong>: This approach enables us to:</p>
+<ul class="simple">
+<li><p>build high-level, performant applications which tend to be readable</p></li>
+<li><p>focus on the problem at hand, without getting sidetracked with implementation details</p></li>
+<li><p>rapidly prototype the experimental parts of the code</p></li>
+<li><p>interfacing allows re-use of established codes</p></li>
+</ul>
+<p><strong>Cons 👎</strong>: Some known downsides are:</p>
+<ul class="simple">
+<li><p>interfaced codes require knowledge of multiple languages</p></li>
+<li><p>compiled codes are harder to debug and rapidly-prototype</p></li>
+</ul>
+</div>
+<p>Now we have a notion of how extensions work. We could use extensions to address performance issues. However building an extension is quite often the last resort.
+More on that will be discussed in the next episode.</p>
+</section>
+<section id="different-kinds-of-performance-bottlenecks">
+<h2>Different kinds of performance bottlenecks<a class="headerlink" href="#different-kinds-of-performance-bottlenecks" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>I/O bound</strong>: the code idles often and is waiting for a disk or network read/write operation to finish. Such bottlenecks can be often remedied by caching, multi-threading or async-programming.</p></li>
+<li><p><strong>Memory bound</strong>: the data to be processed does not fit in the RAM and the code needs to process data in batches instead. This is often a hardware limitation.</p></li>
+<li><p><strong>CPU bound</strong>: the code consumes a lot of CPU cycles, often seen by monitoring the system showing 100% CPU usage in 1 core for serial applications, or in all cores for parallel applications. <strong>This will be the focus of this workshop</strong>.</p></li>
+</ul>
+</section>
+<section id="gems-of-wisdom">
+<h2>Gems of wisdom<a class="headerlink" href="#gems-of-wisdom" title="Link to this heading"></a></h2>
+<p>Before we dive further into the workshop it is important to remember some idioms, which is true in the case of most real-world applications.</p>
+<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Limitations of performance improvement</div>
+<blockquote>
+<div><p class="sd-card-text">The overall performance improvement gained by optimizing a single part of a system is <strong>limited by the fraction of time that the improved part is actually used</strong>.</p>
+</div></blockquote>
+<p class="sd-card-text">– <em>Amdahl’s law</em><a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> (see this <a class="reference external" href="https://demonstrations.wolfram.com/AmdahlsLaw/">demo</a>)</p>
+</div>
+</div>
+<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Premature optimization is the root of all evil.</div>
+<blockquote>
+<div><p class="sd-card-text">The real problem is that programmers have spent far too much time <strong>worrying about efficiency in the wrong places and at the wrong times</strong>; <em>premature optimization is the root of all evil (or at least most of it) in programming</em>.</p>
+</div></blockquote>
+<blockquote>
+<div><p class="sd-card-text">Programmers waste enormous amounts of time thinking about, or worrying about, the speed of noncritical parts of their programs, and these attempts at efficiency actually have a <strong>strong negative impact when debugging and maintenance are considered</strong>. We should forget about small efficiencies, say about <em>97% of the time: premature optimization is the root of all evil</em>. Yet we should not pass up our opportunities in that critical 3%.</p>
+</div></blockquote>
+<p class="sd-card-text">– <em>Donald Knuth</em> (computer scientist, mathematician and the author of <em>The Art of Computer Programming</em>)</p>
+</div>
+</div>
+<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Measure, don’t guess.</div>
+</div>
+</div>
+<div class="sd-card sd-sphinx-override sd-mb-3 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Pareto principle or the 80/20 rule</div>
+<blockquote>
+<div><p class="sd-card-text">80 percent of the runtime is spent in 20 percent of the source code.</p>
+</div></blockquote>
+<p class="sd-card-text">– <em>Scott Meyers</em> (author of <em>Effective C++ Digital Collection: 140 Ways to Improve Your Programming</em>)</p>
+</div>
+</div>
+<hr class="docutils" />
+<div class="admonition-keypoints keypoints admonition" id="keypoints-0">
+<p class="admonition-title">Keypoints</p>
+<ul class="simple">
+<li><p>Find a balance between <em>runtime efficency</em> and <em>cost of development</em>.</p></li>
+<li><p>Tests can help in maintain correctness before you change the code.</p></li>
+<li><p>CPU-bound or I/O-bound or memory bound?</p></li>
+<li><p>Do not optimize everything.</p></li>
+<li><p>Creating extensions are one way of improving performance</p></li>
+</ul>
+</div>
+</section>
+</section>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">2</a><span class="fn-bracket">]</span></span>
+<p>Although Amdahl’s law is about speedup due to parallelization, we can still
+associate it with speedup of serial programs. This is because the law is
+formulated in terms of execution-time.</p>
+</aside>
+</aside>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../setup/" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../perf-fundamentals/" class="btn btn-neutral float-right" title="Performance fundamentals" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, ENCCS and individual contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

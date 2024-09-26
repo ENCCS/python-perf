@@ -1,0 +1,8 @@
+# Parallelize
+:::{objectives}
+
+:::
+
+:::{instructor-note}
+
+:::
