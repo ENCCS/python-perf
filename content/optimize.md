@@ -107,9 +107,6 @@ Jax, "Just in time", C++, "Function or Expression", "Most Python and Numpy featu
 Cupy, "Pre-compiled / JIT", "Cython / C / C++", "Function or Expression", "Numpy and Scipy", "Drop-in alternative for Numpy. Supports CUDA and ROCm GPUs"
 :::
 
-In this example we shall demonstrate **Cython** via a package called
-**Transonic** . Transonic lets you switch between Cython, Numba, Pythran and to some extent
-Jax using very similar syntax
 
 ### Refactoring
 
@@ -165,6 +162,10 @@ inside `calculate_word_counts` function.
 ::: -->
 
 #### Cython
+
+In this example we shall demonstrate **Cython** via a package called
+**Transonic** . Transonic lets you switch between Cython, Numba, Pythran and to some extent
+Jax using very similar syntax
 
 To use Transonic we add decorators to functions we need to optimize.
 There are two decorators
